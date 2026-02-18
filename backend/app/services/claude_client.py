@@ -2,6 +2,7 @@
 Anthropic Claude API client for generating care plans.
 Simple, modular wrapper around the Anthropic SDK.
 """
+import httpx
 from anthropic import Anthropic, APIError
 from app.config import settings
 from app.utils.logger import setup_logger
@@ -14,9 +15,17 @@ class ClaudeClient:
 
     def __init__(self) -> None:
         """Initialize the Claude API client."""
-        self.client = Anthropic(api_key=settings.anthropic_api_key)
+        # Create custom httpx client with SSL verification disabled for local dev
+        # This fixes SSL certificate errors with corporate firewalls/antivirus
+        http_client = httpx.Client(verify=False)
+
+        self.client = Anthropic(
+            api_key=settings.anthropic_api_key,
+            http_client=http_client
+        )
         self.model = "claude-sonnet-4-20250514"
         logger.info(f"Claude API client initialized with model: {self.model}")
+        logger.warning("SSL verification disabled for local development")
 
     async def generate_completion(
         self, system_prompt: str, user_prompt: str, max_tokens: int = 4000

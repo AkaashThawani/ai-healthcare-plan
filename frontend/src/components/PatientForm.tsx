@@ -1,10 +1,17 @@
 /**
- * PatientForm component - Input form for patient data.
- * Clean, medical-professional UI with validation.
+ * PatientForm component - Improved UI with searchable selects and better formatting.
+ * Clean, medical-professional interface with preset options.
  */
 import { useState, FormEvent } from 'react';
 import type { PatientInput, Medication } from '../types';
 import { mockPatients } from '../data/mockPatients';
+import { SearchableSelect } from './SearchableSelect';
+import {
+  COMMON_SYMPTOMS,
+  COMMON_FALL_RISK_FACTORS,
+  COMMON_COMORBIDITIES,
+  COMMON_ALLERGIES,
+} from '../data/presets';
 
 interface PatientFormProps {
   onSubmit: (patient: PatientInput) => void;
@@ -36,25 +43,22 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
     diet_restrictions: null,
   });
 
-  const [tempInputs, setTempInputs] = useState({
-    comorbidity: '',
-    allergy: '',
-    symptom: '',
-    fallRisk: '',
-    medicationName: '',
-    medicationDosage: '',
-    medicationFrequency: '',
+  const [medicationInputs, setMedicationInputs] = useState({
+    name: '',
+    dosage: '',
+    frequency: '',
   });
 
   const handleInputChange = (field: keyof PatientInput, value: string | number | null) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleArrayAdd = (field: keyof PatientInput, value: string, tempField: keyof typeof tempInputs) => {
+  const handleArrayAdd = (field: keyof PatientInput, value: string) => {
     if (!value.trim()) return;
     const currentArray = formData[field] as string[];
-    setFormData((prev) => ({ ...prev, [field]: [...currentArray, value.trim()] }));
-    setTempInputs((prev) => ({ ...prev, [tempField]: '' }));
+    if (!currentArray.includes(value.trim())) {
+      setFormData((prev) => ({ ...prev, [field]: [...currentArray, value.trim()] }));
+    }
   };
 
   const handleArrayRemove = (field: keyof PatientInput, index: number) => {
@@ -63,13 +67,13 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
   };
 
   const handleMedicationAdd = () => {
-    const { medicationName, medicationDosage, medicationFrequency } = tempInputs;
-    if (!medicationName.trim() || !medicationDosage.trim() || !medicationFrequency.trim()) return;
+    const { name, dosage, frequency } = medicationInputs;
+    if (!name.trim() || !dosage.trim() || !frequency.trim()) return;
 
     const newMed: Medication = {
-      name: medicationName.trim(),
-      dosage: medicationDosage.trim(),
-      frequency: medicationFrequency.trim(),
+      name: name.trim(),
+      dosage: dosage.trim(),
+      frequency: frequency.trim(),
     };
 
     setFormData((prev) => ({
@@ -77,12 +81,7 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
       current_medications: [...prev.current_medications, newMed],
     }));
 
-    setTempInputs((prev) => ({
-      ...prev,
-      medicationName: '',
-      medicationDosage: '',
-      medicationFrequency: '',
-    }));
+    setMedicationInputs({ name: '', dosage: '', frequency: '' });
   };
 
   const handleMedicationRemove = (index: number) => {
@@ -105,20 +104,24 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="card space-y-6">
-      {/* Header with Mock Data Buttons */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-800">Patient Information</h2>
-        <div className="flex gap-2 no-print">
+    <form onSubmit={handleSubmit} className="card space-y-8">
+      {/* Header */}
+      <div className="flex items-center justify-between pb-4 border-b-2 border-blue-100">
+        <div>
+          <h2 className="text-3xl font-bold text-gray-900">Patient Information</h2>
+          <p className="text-sm text-gray-600 mt-1">Complete the form below to generate a care plan</p>
+        </div>
+        <div className="no-print">
+          <label className="text-xs text-gray-600 block mb-1">Quick Load:</label>
           <select
             onChange={(e) => handleLoadMockPatient(parseInt(e.target.value))}
-            className="text-sm px-3 py-1 border border-gray-300 rounded-md"
+            className="text-sm px-3 py-2 border border-gray-300 rounded-md hover:border-blue-500 transition-colors"
             defaultValue=""
           >
             <option value="" disabled>Load Mock Patient</option>
             {mockPatients.map((patient, idx) => (
               <option key={idx} value={idx}>
-                {patient.name}
+                {patient.name} ({patient.age}yo - {patient.primary_diagnosis.substring(0, 30)}...)
               </option>
             ))}
           </select>
@@ -126,27 +129,29 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
       </div>
 
       {/* Basic Information */}
-      <div>
-        <h3 className="section-title">Basic Information</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="bg-gray-50 p-6 rounded-lg">
+        <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <span className="text-2xl">👤</span> Basic Information
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="form-label">Patient Name *</label>
+            <label className="form-label text-base">Patient Name *</label>
             <input
               type="text"
               value={formData.name}
               onChange={(e) => handleInputChange('name', e.target.value)}
-              className="form-input"
+              className="form-input text-base"
               required
               disabled={isLoading}
             />
           </div>
           <div>
-            <label className="form-label">Age *</label>
+            <label className="form-label text-base">Age *</label>
             <input
               type="number"
               value={formData.age}
               onChange={(e) => handleInputChange('age', parseInt(e.target.value))}
-              className="form-input"
+              className="form-input text-base"
               min="0"
               max="120"
               required
@@ -154,11 +159,11 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             />
           </div>
           <div>
-            <label className="form-label">Gender *</label>
+            <label className="form-label text-base">Gender *</label>
             <select
               value={formData.gender}
               onChange={(e) => handleInputChange('gender', e.target.value)}
-              className="form-input"
+              className="form-input text-base"
               required
               disabled={isLoading}
             >
@@ -168,23 +173,23 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             </select>
           </div>
           <div>
-            <label className="form-label">Admission Date *</label>
+            <label className="form-label text-base">Admission Date *</label>
             <input
               type="date"
               value={formData.admission_date}
               onChange={(e) => handleInputChange('admission_date', e.target.value)}
-              className="form-input"
+              className="form-input text-base"
               required
               disabled={isLoading}
             />
           </div>
           <div className="md:col-span-2">
-            <label className="form-label">Facility *</label>
+            <label className="form-label text-base">Facility *</label>
             <input
               type="text"
               value={formData.facility}
               onChange={(e) => handleInputChange('facility', e.target.value)}
-              className="form-input"
+              className="form-input text-base"
               required
               disabled={isLoading}
             />
@@ -193,80 +198,60 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
       </div>
 
       {/* Medical History */}
-      <div>
-        <h3 className="section-title">Medical History</h3>
-        <div className="space-y-4">
+      <div className="bg-gray-50 p-6 rounded-lg">
+        <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <span className="text-2xl">🏥</span> Medical History
+        </h3>
+        <div className="space-y-6">
           <div>
-            <label className="form-label">Primary Diagnosis *</label>
+            <label className="form-label text-base">Primary Diagnosis *</label>
             <input
               type="text"
               value={formData.primary_diagnosis}
               onChange={(e) => handleInputChange('primary_diagnosis', e.target.value)}
-              className="form-input"
+              className="form-input text-base"
+              placeholder="e.g., Congestive Heart Failure, Stroke, COPD"
               required
               disabled={isLoading}
             />
           </div>
-          <div>
-            <label className="form-label">Comorbidities</label>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={tempInputs.comorbidity}
-                onChange={(e) => setTempInputs((prev) => ({ ...prev, comorbidity: e.target.value }))}
-                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleArrayAdd('comorbidities', tempInputs.comorbidity, 'comorbidity'))}
-                className="form-input"
-                placeholder="Add comorbidity and press Enter"
-                disabled={isLoading}
-              />
-              <button
-                type="button"
-                onClick={() => handleArrayAdd('comorbidities', tempInputs.comorbidity, 'comorbidity')}
-                className="btn-secondary whitespace-nowrap"
-                disabled={isLoading}
-              >
-                Add
-              </button>
-            </div>
-            {formData.comorbidities.length > 0 && (
-              <div className="mt-2 flex flex-wrap gap-2">
-                {formData.comorbidities.map((item, idx) => (
-                  <span key={idx} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
-                    {item}
-                    <button type="button" onClick={() => handleArrayRemove('comorbidities', idx)} className="hover:text-blue-600" disabled={isLoading}>
-                      ×
-                    </button>
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
+          <SearchableSelect
+            label="Comorbidities"
+            options={COMMON_COMORBIDITIES}
+            selectedValues={formData.comorbidities}
+            onAdd={(value) => handleArrayAdd('comorbidities', value)}
+            onRemove={(index) => handleArrayRemove('comorbidities', index)}
+            placeholder="Type to search or add custom comorbidity..."
+            disabled={isLoading}
+          />
         </div>
       </div>
 
       {/* Current Vitals */}
-      <div>
-        <h3 className="section-title">Current Vitals</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="bg-gray-50 p-6 rounded-lg">
+        <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <span className="text-2xl">❤️</span> Current Vitals
+        </h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           <div>
-            <label className="form-label">Blood Pressure *</label>
+            <label className="form-label text-base">Blood Pressure *</label>
             <input
               type="text"
               value={formData.blood_pressure}
               onChange={(e) => handleInputChange('blood_pressure', e.target.value)}
-              className="form-input"
+              className="form-input text-base"
               placeholder="120/80"
               required
               disabled={isLoading}
             />
           </div>
           <div>
-            <label className="form-label">Heart Rate (bpm) *</label>
+            <label className="form-label text-base">Heart Rate (bpm) *</label>
             <input
               type="number"
               value={formData.heart_rate}
               onChange={(e) => handleInputChange('heart_rate', parseInt(e.target.value))}
-              className="form-input"
+              className="form-input text-base"
               min="20"
               max="300"
               required
@@ -274,13 +259,13 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             />
           </div>
           <div>
-            <label className="form-label">Temperature (°F) *</label>
+            <label className="form-label text-base">Temp (°F) *</label>
             <input
               type="number"
               step="0.1"
               value={formData.temperature}
               onChange={(e) => handleInputChange('temperature', parseFloat(e.target.value))}
-              className="form-input"
+              className="form-input text-base"
               min="90"
               max="110"
               required
@@ -288,12 +273,12 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             />
           </div>
           <div>
-            <label className="form-label">O2 Saturation (%) *</label>
+            <label className="form-label text-base">O2 Sat (%) *</label>
             <input
               type="number"
               value={formData.oxygen_saturation}
               onChange={(e) => handleInputChange('oxygen_saturation', parseInt(e.target.value))}
-              className="form-input"
+              className="form-input text-base"
               min="0"
               max="100"
               required
@@ -301,12 +286,12 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             />
           </div>
           <div>
-            <label className="form-label">Pain Level (0-10) *</label>
+            <label className="form-label text-base">Pain Level (0-10) *</label>
             <input
               type="number"
               value={formData.pain_level}
               onChange={(e) => handleInputChange('pain_level', parseInt(e.target.value))}
-              className="form-input"
+              className="form-input text-base"
               min="0"
               max="10"
               required
@@ -317,47 +302,57 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
       </div>
 
       {/* Medications */}
-      <div>
-        <h3 className="section-title">Current Medications</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+      <div className="bg-gray-50 p-6 rounded-lg">
+        <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <span className="text-2xl">💊</span> Current Medications
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
           <input
             type="text"
-            value={tempInputs.medicationName}
-            onChange={(e) => setTempInputs((prev) => ({ ...prev, medicationName: e.target.value }))}
-            className="form-input"
+            value={medicationInputs.name}
+            onChange={(e) => setMedicationInputs((prev) => ({ ...prev, name: e.target.value }))}
+            className="form-input text-base"
             placeholder="Medication name"
             disabled={isLoading}
           />
           <input
             type="text"
-            value={tempInputs.medicationDosage}
-            onChange={(e) => setTempInputs((prev) => ({ ...prev, medicationDosage: e.target.value }))}
-            className="form-input"
+            value={medicationInputs.dosage}
+            onChange={(e) => setMedicationInputs((prev) => ({ ...prev, dosage: e.target.value }))}
+            className="form-input text-base"
             placeholder="Dosage (e.g., 10mg)"
             disabled={isLoading}
           />
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={tempInputs.medicationFrequency}
-              onChange={(e) => setTempInputs((prev) => ({ ...prev, medicationFrequency: e.target.value }))}
-              className="form-input"
-              placeholder="Frequency (e.g., BID)"
-              disabled={isLoading}
-            />
-            <button type="button" onClick={handleMedicationAdd} className="btn-secondary whitespace-nowrap" disabled={isLoading}>
-              Add
-            </button>
-          </div>
+          <input
+            type="text"
+            value={medicationInputs.frequency}
+            onChange={(e) => setMedicationInputs((prev) => ({ ...prev, frequency: e.target.value }))}
+            className="form-input text-base"
+            placeholder="Frequency (e.g., BID)"
+            disabled={isLoading}
+          />
+          <button
+            type="button"
+            onClick={handleMedicationAdd}
+            className="btn-secondary text-base"
+            disabled={isLoading}
+          >
+            + Add Med
+          </button>
         </div>
         {formData.current_medications.length > 0 && (
-          <div className="mt-3 space-y-1">
+          <div className="mt-4 space-y-2">
             {formData.current_medications.map((med, idx) => (
-              <div key={idx} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                <span className="text-sm">
+              <div key={idx} className="flex items-center justify-between p-3 bg-white rounded border border-gray-200">
+                <span className="text-base">
                   <strong>{med.name}</strong> - {med.dosage} {med.frequency}
                 </span>
-                <button type="button" onClick={() => handleMedicationRemove(idx)} className="text-red-600 hover:text-red-800" disabled={isLoading}>
+                <button
+                  type="button"
+                  onClick={() => handleMedicationRemove(idx)}
+                  className="text-red-600 hover:text-red-800 font-bold"
+                  disabled={isLoading}
+                >
                   Remove
                 </button>
               </div>
@@ -367,77 +362,44 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
       </div>
 
       {/* Allergies */}
-      <div>
-        <h3 className="section-title">Allergies</h3>
-        <div className="flex gap-2">
-          <input
-            type="text"
-            value={tempInputs.allergy}
-            onChange={(e) => setTempInputs((prev) => ({ ...prev, allergy: e.target.value }))}
-            onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleArrayAdd('allergies', tempInputs.allergy, 'allergy'))}
-            className="form-input"
-            placeholder="Add allergy and press Enter"
-            disabled={isLoading}
-          />
-          <button type="button" onClick={() => handleArrayAdd('allergies', tempInputs.allergy, 'allergy')} className="btn-secondary whitespace-nowrap" disabled={isLoading}>
-            Add
-          </button>
-        </div>
-        {formData.allergies.length > 0 && (
-          <div className="mt-2 flex flex-wrap gap-2">
-            {formData.allergies.map((item, idx) => (
-              <span key={idx} className="inline-flex items-center gap-1 px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
-                {item}
-                <button type="button" onClick={() => handleArrayRemove('allergies', idx)} className="hover:text-red-600" disabled={isLoading}>
-                  ×
-                </button>
-              </span>
-            ))}
-          </div>
-        )}
+      <div className="bg-gray-50 p-6 rounded-lg">
+        <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <span className="text-2xl">⚠️</span> Allergies
+        </h3>
+        <SearchableSelect
+          label=""
+          options={COMMON_ALLERGIES}
+          selectedValues={formData.allergies}
+          onAdd={(value) => handleArrayAdd('allergies', value)}
+          onRemove={(index) => handleArrayRemove('allergies', index)}
+          placeholder="Type to search allergies or add custom..."
+          disabled={isLoading}
+        />
       </div>
 
       {/* Clinical Status */}
-      <div>
-        <h3 className="section-title">Clinical Status</h3>
-        <div className="space-y-4">
-          <div>
-            <label className="form-label">Symptoms</label>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={tempInputs.symptom}
-                onChange={(e) => setTempInputs((prev) => ({ ...prev, symptom: e.target.value }))}
-                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleArrayAdd('symptoms', tempInputs.symptom, 'symptom'))}
-                className="form-input"
-                placeholder="Add symptom and press Enter"
-                disabled={isLoading}
-              />
-              <button type="button" onClick={() => handleArrayAdd('symptoms', tempInputs.symptom, 'symptom')} className="btn-secondary whitespace-nowrap" disabled={isLoading}>
-                Add
-              </button>
-            </div>
-            {formData.symptoms.length > 0 && (
-              <div className="mt-2 flex flex-wrap gap-2">
-                {formData.symptoms.map((item, idx) => (
-                  <span key={idx} className="inline-flex items-center gap-1 px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
-                    {item}
-                    <button type="button" onClick={() => handleArrayRemove('symptoms', idx)} className="hover:text-yellow-600" disabled={isLoading}>
-                      ×
-                    </button>
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
+      <div className="bg-gray-50 p-6 rounded-lg">
+        <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <span className="text-2xl">📋</span> Clinical Status
+        </h3>
+        <div className="space-y-6">
+          <SearchableSelect
+            label="Current Symptoms"
+            options={COMMON_SYMPTOMS}
+            selectedValues={formData.symptoms}
+            onAdd={(value) => handleArrayAdd('symptoms', value)}
+            onRemove={(index) => handleArrayRemove('symptoms', index)}
+            placeholder="Type to search symptoms or add custom..."
+            disabled={isLoading}
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="form-label">Mobility Level *</label>
+              <label className="form-label text-base">Mobility Level *</label>
               <select
                 value={formData.mobility_level}
                 onChange={(e) => handleInputChange('mobility_level', e.target.value)}
-                className="form-input"
+                className="form-input text-base"
                 required
                 disabled={isLoading}
               >
@@ -448,55 +410,37 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
               </select>
             </div>
             <div>
-              <label className="form-label">ADL Independence *</label>
+              <label className="form-label text-base">ADL Independence *</label>
               <input
                 type="text"
                 value={formData.adl_independence}
                 onChange={(e) => handleInputChange('adl_independence', e.target.value)}
-                className="form-input"
+                className="form-input text-base"
+                placeholder="e.g., Requires assistance with all ADLs"
                 required
                 disabled={isLoading}
               />
             </div>
           </div>
 
-          <div>
-            <label className="form-label">Fall Risk Factors</label>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={tempInputs.fallRisk}
-                onChange={(e) => setTempInputs((prev) => ({ ...prev, fallRisk: e.target.value }))}
-                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleArrayAdd('fall_risk_factors', tempInputs.fallRisk, 'fallRisk'))}
-                className="form-input"
-                placeholder="Add fall risk factor and press Enter"
-                disabled={isLoading}
-              />
-              <button type="button" onClick={() => handleArrayAdd('fall_risk_factors', tempInputs.fallRisk, 'fallRisk')} className="btn-secondary whitespace-nowrap" disabled={isLoading}>
-                Add
-              </button>
-            </div>
-            {formData.fall_risk_factors.length > 0 && (
-              <div className="mt-2 flex flex-wrap gap-2">
-                {formData.fall_risk_factors.map((item, idx) => (
-                  <span key={idx} className="inline-flex items-center gap-1 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
-                    {item}
-                    <button type="button" onClick={() => handleArrayRemove('fall_risk_factors', idx)} className="hover:text-orange-600" disabled={isLoading}>
-                      ×
-                    </button>
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
+          <SearchableSelect
+            label="Fall Risk Factors"
+            options={COMMON_FALL_RISK_FACTORS}
+            selectedValues={formData.fall_risk_factors}
+            onAdd={(value) => handleArrayAdd('fall_risk_factors', value)}
+            onRemove={(index) => handleArrayRemove('fall_risk_factors', index)}
+            placeholder="Type to search fall risks or add custom..."
+            disabled={isLoading}
+          />
 
           <div>
-            <label className="form-label">Cognitive Status *</label>
+            <label className="form-label text-base">Cognitive Status *</label>
             <input
               type="text"
               value={formData.cognitive_status}
               onChange={(e) => handleInputChange('cognitive_status', e.target.value)}
-              className="form-input"
+              className="form-input text-base"
+              placeholder="e.g., Alert and oriented x3, or Confused"
               required
               disabled={isLoading}
             />
@@ -505,28 +449,30 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
       </div>
 
       {/* Special Considerations */}
-      <div>
-        <h3 className="section-title">Special Considerations</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="bg-gray-50 p-6 rounded-lg">
+        <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <span className="text-2xl">🔔</span> Special Considerations
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="form-label">Isolation Precautions</label>
+            <label className="form-label text-base">Isolation Precautions</label>
             <input
               type="text"
               value={formData.isolation_precautions || ''}
               onChange={(e) => handleInputChange('isolation_precautions', e.target.value || null)}
-              className="form-input"
-              placeholder="None"
+              className="form-input text-base"
+              placeholder="None (or specify type)"
               disabled={isLoading}
             />
           </div>
           <div>
-            <label className="form-label">Diet Restrictions</label>
+            <label className="form-label text-base">Diet Restrictions</label>
             <input
               type="text"
               value={formData.diet_restrictions || ''}
               onChange={(e) => handleInputChange('diet_restrictions', e.target.value || null)}
-              className="form-input"
-              placeholder="None"
+              className="form-input text-base"
+              placeholder="None (or specify restrictions)"
               disabled={isLoading}
             />
           </div>
@@ -534,18 +480,22 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
       </div>
 
       {/* Submit Button */}
-      <div className="flex justify-end pt-4 border-t">
-        <button type="submit" className="btn-primary text-lg px-8 py-3" disabled={isLoading}>
+      <div className="flex justify-end pt-6 border-t-2 border-blue-100">
+        <button
+          type="submit"
+          className="btn-primary text-lg px-10 py-4 shadow-lg hover:shadow-xl transition-shadow"
+          disabled={isLoading}
+        >
           {isLoading ? (
-            <span className="flex items-center gap-2">
-              <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <span className="flex items-center gap-3">
+              <svg className="animate-spin h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
               Generating Care Plan...
             </span>
           ) : (
-            'Generate Care Plan'
+            '🚀 Generate Care Plan'
           )}
         </button>
       </div>
