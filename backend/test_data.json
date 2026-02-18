@@ -1,0 +1,243 @@
+{
+  "mock_patients": [
+    {
+      "name": "Margaret Johnson",
+      "description": "Post-stroke patient with diabetes - High complexity",
+      "data": {
+        "name": "Margaret Johnson",
+        "age": 78,
+        "gender": "Female",
+        "admission_date": "2024-01-15",
+        "facility": "Sunrise Senior Living Center",
+        "primary_diagnosis": "Ischemic Stroke (CVA) with right-sided hemiparesis",
+        "comorbidities": [
+          "Type 2 Diabetes Mellitus",
+          "Hypertension",
+          "Hyperlipidemia",
+          "Atrial Fibrillation"
+        ],
+        "blood_pressure": "148/90",
+        "heart_rate": 82,
+        "temperature": 98.4,
+        "oxygen_saturation": 96,
+        "pain_level": 3,
+        "current_medications": [
+          { "name": "Metformin", "dosage": "500mg", "frequency": "BID" },
+          { "name": "Lisinopril", "dosage": "10mg", "frequency": "QD" },
+          { "name": "Warfarin", "dosage": "5mg", "frequency": "QD" },
+          { "name": "Atorvastatin", "dosage": "20mg", "frequency": "QHS" },
+          { "name": "Aspirin", "dosage": "81mg", "frequency": "QD" }
+        ],
+        "allergies": ["Penicillin"],
+        "symptoms": [
+          "Right-sided weakness",
+          "Mild dysarthria",
+          "Difficulty swallowing",
+          "Occasional confusion"
+        ],
+        "mobility_level": "wheelchair",
+        "adl_independence": "Requires moderate to maximum assistance with all ADLs",
+        "fall_risk_factors": [
+          "History of falls",
+          "Impaired mobility",
+          "Confusion",
+          "Use of blood thinners"
+        ],
+        "cognitive_status": "Alert but occasionally confused, follows simple commands",
+        "isolation_precautions": null,
+        "diet_restrictions": "Diabetic diet, pureed texture, thickened liquids"
+      }
+    },
+    {
+      "name": "Robert Williams",
+      "description": "CHF exacerbation with renal disease - Multiple medications",
+      "data": {
+        "name": "Robert Williams",
+        "age": 82,
+        "gender": "Male",
+        "admission_date": "2024-01-18",
+        "facility": "Meadowbrook Nursing & Rehabilitation",
+        "primary_diagnosis": "Congestive Heart Failure (CHF) - Acute exacerbation",
+        "comorbidities": [
+          "Chronic Kidney Disease Stage 3",
+          "Coronary Artery Disease",
+          "COPD",
+          "Type 2 Diabetes"
+        ],
+        "blood_pressure": "138/84",
+        "heart_rate": 94,
+        "temperature": 98.2,
+        "oxygen_saturation": 92,
+        "pain_level": 2,
+        "current_medications": [
+          { "name": "Furosemide", "dosage": "40mg", "frequency": "BID" },
+          { "name": "Carvedilol", "dosage": "6.25mg", "frequency": "BID" },
+          { "name": "Lisinopril", "dosage": "5mg", "frequency": "QD" },
+          { "name": "Spironolactone", "dosage": "25mg", "frequency": "QD" },
+          { "name": "Albuterol", "dosage": "2 puffs", "frequency": "Q4H PRN" },
+          { "name": "Glipizide", "dosage": "5mg", "frequency": "BID" }
+        ],
+        "allergies": ["Sulfa drugs"],
+        "symptoms": [
+          "Dyspnea on exertion",
+          "Bilateral lower extremity edema",
+          "Fatigue",
+          "Decreased urine output"
+        ],
+        "mobility_level": "ambulatory",
+        "adl_independence": "Requires minimal assistance with ADLs, independent with grooming",
+        "fall_risk_factors": [
+          "Weakness",
+          "Dizziness",
+          "Frequent urination at night"
+        ],
+        "cognitive_status": "Alert and oriented x3, good memory",
+        "isolation_precautions": null,
+        "diet_restrictions": "Cardiac diet - 2g sodium restriction, fluid restriction 1500ml/day"
+      }
+    },
+    {
+      "name": "Dorothy Martinez",
+      "description": "Hip fracture post-surgery - Fall risk, pain management",
+      "data": {
+        "name": "Dorothy Martinez",
+        "age": 85,
+        "gender": "Female",
+        "admission_date": "2024-01-20",
+        "facility": "Golden Years Rehabilitation Center",
+        "primary_diagnosis": "Status post right hip fracture repair (ORIF) - 5 days ago",
+        "comorbidities": ["Osteoporosis", "Hypertension", "Mild dementia"],
+        "blood_pressure": "142/86",
+        "heart_rate": 76,
+        "temperature": 98.6,
+        "oxygen_saturation": 97,
+        "pain_level": 6,
+        "current_medications": [
+          { "name": "Oxycodone", "dosage": "5mg", "frequency": "Q4H PRN pain" },
+          { "name": "Acetaminophen", "dosage": "650mg", "frequency": "Q6H" },
+          { "name": "Enoxaparin", "dosage": "40mg", "frequency": "QD subcutaneous" },
+          { "name": "Amlodipine", "dosage": "5mg", "frequency": "QD" },
+          { "name": "Calcium + Vit D", "dosage": "600mg/400IU", "frequency": "BID" },
+          { "name": "Donepezil", "dosage": "5mg", "frequency": "QHS" }
+        ],
+        "allergies": ["Codeine (causes nausea)"],
+        "symptoms": [
+          "Surgical site pain",
+          "Limited mobility",
+          "Anxiety about falling",
+          "Constipation"
+        ],
+        "mobility_level": "wheelchair",
+        "adl_independence": "Requires maximum assistance with transfers, toileting, and lower body dressing",
+        "fall_risk_factors": [
+          "Recent surgery",
+          "Pain",
+          "Fear of falling",
+          "Cognitive impairment",
+          "History of fracture"
+        ],
+        "cognitive_status": "Mild dementia, forgetful but cooperative",
+        "isolation_precautions": null,
+        "diet_restrictions": "Regular diet, encourage high fiber for constipation"
+      }
+    },
+    {
+      "name": "James Anderson",
+      "description": "COPD with pneumonia - Respiratory focus",
+      "data": {
+        "name": "James Anderson",
+        "age": 74,
+        "gender": "Male",
+        "admission_date": "2024-01-22",
+        "facility": "Riverside Health & Rehabilitation",
+        "primary_diagnosis": "Community-acquired pneumonia with COPD exacerbation",
+        "comorbidities": [
+          "COPD (Chronic Obstructive Pulmonary Disease)",
+          "Former smoker",
+          "Gastroesophageal reflux disease"
+        ],
+        "blood_pressure": "136/82",
+        "heart_rate": 88,
+        "temperature": 99.2,
+        "oxygen_saturation": 90,
+        "pain_level": 4,
+        "current_medications": [
+          { "name": "Levofloxacin", "dosage": "750mg", "frequency": "QD for 7 days" },
+          { "name": "Prednisone", "dosage": "40mg", "frequency": "QD for 5 days" },
+          { "name": "Albuterol", "dosage": "2.5mg", "frequency": "Q4H nebulizer" },
+          { "name": "Ipratropium", "dosage": "0.5mg", "frequency": "Q6H nebulizer" },
+          { "name": "Guaifenesin", "dosage": "400mg", "frequency": "BID" },
+          { "name": "Omeprazole", "dosage": "20mg", "frequency": "QD" }
+        ],
+        "allergies": [],
+        "symptoms": [
+          "Productive cough with yellow sputum",
+          "Shortness of breath",
+          "Wheezing",
+          "Chest tightness",
+          "Fatigue"
+        ],
+        "mobility_level": "ambulatory",
+        "adl_independence": "Independent with most ADLs, requires assistance with bathing due to dyspnea",
+        "fall_risk_factors": [
+          "Weakness",
+          "Shortness of breath with exertion",
+          "Oxygen tubing"
+        ],
+        "cognitive_status": "Alert and oriented x3",
+        "isolation_precautions": "Droplet precautions until 24h on antibiotics",
+        "diet_restrictions": "Regular diet, small frequent meals to prevent dyspnea"
+      }
+    },
+    {
+      "name": "Eleanor Thompson",
+      "description": "Dementia with UTI - Cognitive + infection",
+      "data": {
+        "name": "Eleanor Thompson",
+        "age": 89,
+        "gender": "Female",
+        "admission_date": "2024-01-23",
+        "facility": "Harmony Memory Care Unit",
+        "primary_diagnosis": "Urinary Tract Infection (UTI) with delirium",
+        "comorbidities": [
+          "Alzheimers Disease - Moderate stage",
+          "Hypertension",
+          "Chronic constipation"
+        ],
+        "blood_pressure": "152/88",
+        "heart_rate": 92,
+        "temperature": 99.8,
+        "oxygen_saturation": 96,
+        "pain_level": 5,
+        "current_medications": [
+          { "name": "Ceftriaxone", "dosage": "1g", "frequency": "QD IV for 5 days" },
+          { "name": "Memantine", "dosage": "10mg", "frequency": "BID" },
+          { "name": "Donepezil", "dosage": "10mg", "frequency": "QHS" },
+          { "name": "Losartan", "dosage": "50mg", "frequency": "QD" },
+          { "name": "Docusate sodium", "dosage": "100mg", "frequency": "BID" },
+          { "name": "Acetaminophen", "dosage": "650mg", "frequency": "Q6H PRN" }
+        ],
+        "allergies": ["Bactrim"],
+        "symptoms": [
+          "Increased confusion",
+          "Agitation",
+          "Urinary frequency",
+          "Foul-smelling urine",
+          "Decreased appetite"
+        ],
+        "mobility_level": "ambulatory",
+        "adl_independence": "Requires supervision and cuing for all ADLs, total assistance with medications",
+        "fall_risk_factors": [
+          "Confusion",
+          "Agitation",
+          "Frequent toileting",
+          "Impaired judgment",
+          "History of wandering"
+        ],
+        "cognitive_status": "Moderate dementia, increased confusion due to UTI, disoriented to time and place",
+        "isolation_precautions": null,
+        "diet_restrictions": "Mechanical soft diet, encourage fluids"
+      }
+    }
+  ]
+}
