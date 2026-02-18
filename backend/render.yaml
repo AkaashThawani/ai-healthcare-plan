@@ -39,7 +39,7 @@ services:
         value: https://your-frontend-domain.vercel.app  # Update with your frontend URL
 
       - key: PYTHON_VERSION
-        value: 3.11.7
+        value: 3.11.9
 
     # Scaling (Free tier: 1 instance)
     scaling:
