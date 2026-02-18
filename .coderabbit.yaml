@@ -1,0 +1,132 @@
+# CodeRabbit Configuration
+# AI-powered code review assistant
+
+# Language settings
+language: en-US
+
+# Review settings
+reviews:
+  # Review all pull requests
+  auto_review:
+    enabled: true
+    drafts: false  # Don't review draft PRs
+
+  # Review depth
+  level: comprehensive  # Options: quick, moderate, comprehensive
+
+  # Focus areas
+  focus:
+    - security
+    - performance
+    - best_practices
+    - code_quality
+    - maintainability
+    - type_safety
+
+  # File patterns to review
+  include_patterns:
+    - "**/*.py"
+    - "**/*.ts"
+    - "**/*.tsx"
+    - "**/*.js"
+    - "**/*.jsx"
+
+  # Ignore patterns
+  exclude_patterns:
+    - "**/node_modules/**"
+    - "**/venv/**"
+    - "**/dist/**"
+    - "**/__pycache__/**"
+    - "**/*.test.ts"
+    - "**/*.test.tsx"
+    - "**/package-lock.json"
+
+# Code standards
+standards:
+  python:
+    style_guide: pep8
+    type_checking: true
+    docstrings: google
+    complexity_threshold: 10
+
+  typescript:
+    style_guide: airbnb
+    type_checking: strict
+    naming_convention: camelCase
+    complexity_threshold: 15
+
+# Issue detection
+detect:
+  security_vulnerabilities: true
+  performance_issues: true
+  code_smells: true
+  duplicated_code: true
+  unused_code: true
+  type_errors: true
+  accessibility_issues: true  # For React components
+
+# Suggestions
+suggestions:
+  refactoring: true
+  optimization: true
+  simplification: true
+  documentation: true
+
+# Comments style
+comments:
+  tone: constructive  # Options: constructive, direct, friendly
+  format: markdown
+  include_code_snippets: true
+  max_per_file: 10  # Prevent comment spam
+
+# Auto-fixes
+auto_fix:
+  enabled: false  # Set to true if you want CodeRabbit to create fix commits
+  types:
+    - formatting
+    - imports
+    - unused_variables
+
+# Integration
+github:
+  status_check: true  # Add status check to PRs
+  label_reviews: true  # Add labels like "needs-changes", "lgtm"
+  request_changes: false  # Don't block PRs, just comment
+
+# Notifications
+notifications:
+  pr_opened: true
+  pr_updated: true
+  review_completed: true
+
+# Custom rules
+custom_rules:
+  - name: "No console.log in production"
+    pattern: "console\\.log"
+    files: "**/*.{ts,tsx,js,jsx}"
+    severity: warning
+    message: "Remove console.log before merging. Use proper logging."
+
+  - name: "No hardcoded API URLs"
+    pattern: "https?://localhost"
+    files: "**/*.{ts,tsx,py}"
+    severity: error
+    message: "Use environment variables for API URLs"
+
+  - name: "No TODO without issue number"
+    pattern: "TODO(?!\\s*#\\d+)"
+    files: "**/*"
+    severity: info
+    message: "Link TODOs to GitHub issues (e.g., TODO #123)"
+
+# Learning
+learn:
+  from_approvals: true  # Learn from approved PRs
+  from_rejections: true  # Learn from rejected changes
+  adapt_to_team_style: true
+
+# Performance
+limits:
+  max_files_per_review: 50
+  max_lines_per_file: 1000
+  timeout_seconds: 300
