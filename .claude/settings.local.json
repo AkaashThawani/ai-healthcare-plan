@@ -18,7 +18,12 @@
       "Bash(findstr:*)",
       "Bash(timeout:*)",
       "Bash(pre-commit install:*)",
-      "Bash(pre-commit run:*)"
+      "Bash(pre-commit run:*)",
+      "Bash(gh:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(git checkout:*)"
     ]
   }
 }

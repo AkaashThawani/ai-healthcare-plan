@@ -122,10 +122,7 @@ function AppContent() {
               path="/care-plan"
               element={
                 carePlan ? (
-                  <CarePlanDisplay
-                    carePlan={carePlan}
-                    onGenerateNew={handleGoBack}
-                  />
+                  <CarePlanDisplay carePlan={carePlan} />
                 ) : (
                   <div className="text-center py-20">
                     <p className="text-gray-600 mb-4">

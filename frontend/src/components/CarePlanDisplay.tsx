@@ -6,13 +6,9 @@ import type { CarePlanOutput } from "../types";
 
 interface CarePlanDisplayProps {
   carePlan: CarePlanOutput;
-  onGenerateNew: () => void;
 }
 
-export function CarePlanDisplay({
-  carePlan,
-  onGenerateNew,
-}: CarePlanDisplayProps) {
+export function CarePlanDisplay({ carePlan }: CarePlanDisplayProps) {
   const handlePrint = () => {
     window.print();
   };
