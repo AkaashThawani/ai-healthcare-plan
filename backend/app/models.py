@@ -3,7 +3,6 @@ Pydantic models for patient input validation and care plan output structure.
 """
 
 from datetime import date
-from typing import Optional
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -63,10 +62,10 @@ class PatientInput(BaseModel):
     cognitive_status: str = Field(..., description="Cognitive status description")
 
     # Special Considerations
-    isolation_precautions: Optional[str] = Field(
+    isolation_precautions: str | None = Field(
         None, description="Isolation precautions if any"
     )
-    diet_restrictions: Optional[str] = Field(
+    diet_restrictions: str | None = Field(
         None, description="Diet restrictions if any"
     )
 
