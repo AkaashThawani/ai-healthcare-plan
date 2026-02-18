@@ -104,7 +104,7 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="card space-y-8">
+    <form onSubmit={handleSubmit} className="space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between pb-4 border-b-2 border-blue-100">
         <div>
