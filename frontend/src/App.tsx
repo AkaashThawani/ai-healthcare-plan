@@ -1,17 +1,19 @@
 /**
- * Main App component - Full-page card layout with header inside.
- * Clean, modern design with better navigation.
+ * Main App component - Full-width layout with routing.
+ * Separate routes for form and care plan with browser navigation support.
  */
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import type { PatientInput, CarePlanOutput } from './types';
 import { generateCarePlan, formatErrorMessage } from './services/api';
 import { PatientForm } from './components/PatientForm';
 import { CarePlanDisplay } from './components/CarePlanDisplay';
 
-function App() {
+function AppContent() {
   const [carePlan, setCarePlan] = useState<CarePlanOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleGenerateCarePlan = async (patientData: PatientInput) => {
     setError(null);
@@ -20,6 +22,8 @@ function App() {
     try {
       const result = await generateCarePlan(patientData);
       setCarePlan(result);
+      // Navigate to care plan page
+      navigate('/care-plan');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       const errorMessage = formatErrorMessage(err);
@@ -30,16 +34,15 @@ function App() {
     }
   };
 
-  const handleGenerateNew = () => {
-    setCarePlan(null);
-    setError(null);
+  const handleGoBack = () => {
+    navigate('/');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <div className="min-h-screen py-6 px-4">
-      {/* Full-Page Card Container */}
-      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+      {/* Full-Width Card Container */}
+      <div className="mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
         {/* Header - Inside Card */}
         <header className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-8 no-print">
           <div className="flex items-center justify-between">
@@ -52,14 +55,19 @@ function App() {
                 Comprehensive nursing care plans powered by Claude AI
               </p>
             </div>
-            {carePlan && (
-              <button
-                onClick={handleGenerateNew}
-                className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors shadow-lg"
-              >
-                ← New Patient
-              </button>
-            )}
+            <Routes>
+              <Route
+                path="/care-plan"
+                element={
+                  <button
+                    onClick={handleGoBack}
+                    className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors shadow-lg"
+                  >
+                    ← New Patient
+                  </button>
+                }
+              />
+            </Routes>
           </div>
         </header>
 
@@ -99,12 +107,28 @@ function App() {
             </div>
           )}
 
-          {/* Main Content */}
-          {carePlan ? (
-            <CarePlanDisplay carePlan={carePlan} onGenerateNew={handleGenerateNew} />
-          ) : (
-            <PatientForm onSubmit={handleGenerateCarePlan} isLoading={isLoading} />
-          )}
+          {/* Routes */}
+          <Routes>
+            <Route
+              path="/"
+              element={<PatientForm onSubmit={handleGenerateCarePlan} isLoading={isLoading} />}
+            />
+            <Route
+              path="/care-plan"
+              element={
+                carePlan ? (
+                  <CarePlanDisplay carePlan={carePlan} onGenerateNew={handleGoBack} />
+                ) : (
+                  <div className="text-center py-20">
+                    <p className="text-gray-600 mb-4">No care plan to display</p>
+                    <button onClick={handleGoBack} className="btn-primary">
+                      Go to Patient Form
+                    </button>
+                  </div>
+                )
+              }
+            />
+          </Routes>
         </div>
 
         {/* Footer - Inside Card */}
@@ -128,6 +152,14 @@ function App() {
         </footer>
       </div>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
   );
 }
 
