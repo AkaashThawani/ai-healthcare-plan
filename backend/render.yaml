@@ -1,0 +1,60 @@
+# Render Deployment Configuration
+# Deploys FastAPI backend to Render
+
+services:
+  # Backend API Service
+  - type: web
+    name: care-plan-generator-backend
+    runtime: python
+    region: oregon  # Choose your preferred region
+    plan: free  # Free tier (upgrade to starter for production)
+
+    # Build Configuration
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+
+    # Health Check
+    healthCheckPath: /health
+
+    # Auto-deploy
+    branch: main  # Deploy from main branch
+    autoDeploy: true
+
+    # Environment Variables
+    # IMPORTANT: Set these in Render Dashboard (Settings → Environment)
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false  # Set manually in dashboard
+
+      - key: SENTRY_DSN
+        sync: false  # Optional: Set if using Sentry
+
+      - key: ENVIRONMENT
+        value: production
+
+      - key: LOG_LEVEL
+        value: INFO
+
+      - key: CORS_ORIGINS
+        value: https://your-frontend-domain.vercel.app  # Update with your frontend URL
+
+      - key: PYTHON_VERSION
+        value: 3.11.7
+
+    # Scaling (Free tier: 1 instance)
+    scaling:
+      minInstances: 1
+      maxInstances: 1
+
+    # Disk storage (if needed)
+    # disk:
+    #   name: data
+    #   mountPath: /data
+    #   sizeGB: 1
+
+# Optional: PostgreSQL Database (if you add database later)
+# databases:
+#   - name: care-plan-db
+#     databaseName: careplan
+#     user: careplan_user
+#     plan: free
