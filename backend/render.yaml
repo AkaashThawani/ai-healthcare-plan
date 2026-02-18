@@ -9,8 +9,11 @@ services:
     region: oregon  # Choose your preferred region
     plan: free  # Free tier (upgrade to starter for production)
 
+    # IMPORTANT: Set Python version in Render Dashboard
+    # Go to: Service Settings → Environment → Python Version → Select 3.11
+
     # Build Configuration
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install --upgrade pip && pip install --only-binary=:all: -r requirements.txt || pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
 
     # Health Check
