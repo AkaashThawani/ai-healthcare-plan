@@ -1,8 +1,6 @@
 ## Description
 <!-- Provide a brief description of the changes in this PR -->
 
-
-
 ## Type of Change
 <!-- Mark the relevant option with an "x" -->
 
@@ -31,14 +29,13 @@
 - [ ] Tested with mock patient data
 
 **Test Configuration:**
+
 - Browser(s):
 - Node version:
 - Python version:
 
 ## Screenshots (if applicable)
 <!-- Add screenshots to help explain your changes -->
-
-
 
 ## Checklist
 <!-- Mark completed items with an "x" -->
@@ -54,8 +51,6 @@
 
 ## Additional Notes
 <!-- Any additional information, context, or concerns -->
-
-
 
 ## Related Issues
 <!-- Link any related issues here -->

@@ -2,6 +2,7 @@
 Structured logging configuration for the application.
 Provides consistent logging across all modules.
 """
+
 import logging
 import sys
 from typing import Any
@@ -48,7 +49,9 @@ def setup_logger(name: str, log_level: str = "INFO") -> logging.Logger:
     return logger
 
 
-def log_api_request(logger: logging.Logger, method: str, path: str, **kwargs: Any) -> None:
+def log_api_request(
+    logger: logging.Logger, method: str, path: str, **kwargs: Any
+) -> None:
     """
     Log API request with consistent format.
 

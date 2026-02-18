@@ -2,12 +2,12 @@
  * Main App component - Full-width layout with routing.
  * Separate routes for form and care plan with browser navigation support.
  */
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import type { PatientInput, CarePlanOutput } from './types';
-import { generateCarePlan, formatErrorMessage } from './services/api';
-import { PatientForm } from './components/PatientForm';
-import { CarePlanDisplay } from './components/CarePlanDisplay';
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import type { PatientInput, CarePlanOutput } from "./types";
+import { generateCarePlan, formatErrorMessage } from "./services/api";
+import { PatientForm } from "./components/PatientForm";
+import { CarePlanDisplay } from "./components/CarePlanDisplay";
 
 function AppContent() {
   const [carePlan, setCarePlan] = useState<CarePlanOutput | null>(null);
@@ -23,20 +23,20 @@ function AppContent() {
       const result = await generateCarePlan(patientData);
       setCarePlan(result);
       // Navigate to care plan page
-      navigate('/care-plan');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      navigate("/care-plan");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
       const errorMessage = formatErrorMessage(err);
       setError(errorMessage);
-      console.error('Care plan generation failed:', err);
+      console.error("Care plan generation failed:", err);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleGoBack = () => {
-    navigate('/');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigate("/");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -111,16 +111,26 @@ function AppContent() {
           <Routes>
             <Route
               path="/"
-              element={<PatientForm onSubmit={handleGenerateCarePlan} isLoading={isLoading} />}
+              element={
+                <PatientForm
+                  onSubmit={handleGenerateCarePlan}
+                  isLoading={isLoading}
+                />
+              }
             />
             <Route
               path="/care-plan"
               element={
                 carePlan ? (
-                  <CarePlanDisplay carePlan={carePlan} onGenerateNew={handleGoBack} />
+                  <CarePlanDisplay
+                    carePlan={carePlan}
+                    onGenerateNew={handleGoBack}
+                  />
                 ) : (
                   <div className="text-center py-20">
-                    <p className="text-gray-600 mb-4">No care plan to display</p>
+                    <p className="text-gray-600 mb-4">
+                      No care plan to display
+                    </p>
                     <button onClick={handleGoBack} className="btn-primary">
                       Go to Patient Form
                     </button>
@@ -135,7 +145,7 @@ function AppContent() {
         <footer className="bg-gray-50 px-8 py-6 border-t border-gray-200 no-print">
           <div className="text-center text-sm text-gray-600">
             <p className="mb-2">
-              Powered by{' '}
+              Powered by{" "}
               <a
                 href="https://anthropic.com"
                 target="_blank"
@@ -146,7 +156,8 @@ function AppContent() {
               </a>
             </p>
             <p className="text-xs text-gray-500">
-              ⚠️ For demonstration purposes only. Always verify care plans with licensed healthcare professionals.
+              ⚠️ For demonstration purposes only. Always verify care plans with
+              licensed healthcare professionals.
             </p>
           </div>
         </footer>

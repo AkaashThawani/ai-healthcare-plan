@@ -2,11 +2,13 @@
 Care plan generation service - Business logic for creating care plans.
 Constructs prompts, calls Claude API, and formats output.
 """
+
 from datetime import datetime
-from app.models import PatientInput, CarePlanOutput
+
+from app.config import settings
+from app.models import CarePlanOutput, PatientInput
 from app.services.claude_client import claude_client
 from app.utils.logger import setup_logger
-from app.config import settings
 
 logger = setup_logger(__name__, settings.log_level)
 
@@ -206,5 +208,5 @@ async def generate_care_plan(patient: PatientInput) -> CarePlanOutput:
         )
 
     except Exception as e:
-        logger.error(f"Failed to generate care plan: {str(e)}")
+        logger.error(f"Failed to generate care plan: {e!s}")
         raise

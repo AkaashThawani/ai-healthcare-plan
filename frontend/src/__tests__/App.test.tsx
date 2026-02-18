@@ -4,13 +4,13 @@
  * These tests demonstrate how to test React components using Vitest and React Testing Library.
  * Run with: npm run test
  */
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import App from '../App';
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
+import App from "../App";
 
 // Mock the API service
-vi.mock('../services/api', () => ({
+vi.mock("../services/api", () => ({
   generateCarePlan: vi.fn(),
 }));
 
@@ -19,39 +19,41 @@ const renderApp = () => {
   return render(
     <BrowserRouter>
       <App />
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 };
 
-describe('App Component', () => {
+describe("App Component", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('renders the main heading', () => {
+  it("renders the main heading", () => {
     renderApp();
-    expect(screen.getByText(/AI-Powered Care Plan Generator/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/AI-Powered Care Plan Generator/i),
+    ).toBeInTheDocument();
   });
 
-  it('renders the patient form on initial load', () => {
+  it("renders the patient form on initial load", () => {
     renderApp();
     expect(screen.getByText(/Patient Information/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Patient Name/i)).toBeInTheDocument();
   });
 
-  it('displays loading state when generating care plan', async () => {
-    const { generateCarePlan } = await import('../services/api');
+  it("displays loading state when generating care plan", async () => {
+    const { generateCarePlan } = await import("../services/api");
 
     // Mock API call to never resolve (simulates loading)
     vi.mocked(generateCarePlan).mockImplementation(
-      () => new Promise(() => {}) // Never resolves
+      () => new Promise(() => {}), // Never resolves
     );
 
     renderApp();
 
     // Fill out form (minimal data)
     fireEvent.change(screen.getByLabelText(/Patient Name/i), {
-      target: { value: 'Test Patient' },
+      target: { value: "Test Patient" },
     });
 
     // Submit form
@@ -65,26 +67,26 @@ describe('App Component', () => {
   });
 });
 
-describe('PatientForm Component', () => {
-  it('allows user to input patient name', () => {
+describe("PatientForm Component", () => {
+  it("allows user to input patient name", () => {
     renderApp();
 
     const nameInput = screen.getByLabelText(/Patient Name/i);
-    fireEvent.change(nameInput, { target: { value: 'John Doe' } });
+    fireEvent.change(nameInput, { target: { value: "John Doe" } });
 
-    expect(nameInput).toHaveValue('John Doe');
+    expect(nameInput).toHaveValue("John Doe");
   });
 
-  it('allows user to select gender', () => {
+  it("allows user to select gender", () => {
     renderApp();
 
     const genderSelect = screen.getByLabelText(/Gender/i);
-    fireEvent.change(genderSelect, { target: { value: 'Female' } });
+    fireEvent.change(genderSelect, { target: { value: "Female" } });
 
-    expect(genderSelect).toHaveValue('Female');
+    expect(genderSelect).toHaveValue("Female");
   });
 
-  it('validates required fields', async () => {
+  it("validates required fields", async () => {
     renderApp();
 
     // Try to submit empty form
@@ -105,25 +107,25 @@ describe('PatientForm Component', () => {
     // Should populate form with mock data
     await waitFor(() => {
       const nameInput = screen.getByLabelText(/Patient Name/i);
-      expect(nameInput).not.toHaveValue('');
+      expect(nameInput).not.toHaveValue("");
     });
   });
 });
 
-describe('CarePlanDisplay Component', () => {
-  it('displays care plan after successful generation', async () => {
-    const { generateCarePlan } = await import('../services/api');
+describe("CarePlanDisplay Component", () => {
+  it("displays care plan after successful generation", async () => {
+    const { generateCarePlan } = await import("../services/api");
 
     // Mock successful API response
     vi.mocked(generateCarePlan).mockResolvedValue({
-      care_plan_html: '<h1>Test Care Plan</h1><p>Test content</p>',
+      care_plan_html: "<h1>Test Care Plan</h1><p>Test content</p>",
     });
 
     renderApp();
 
     // Fill and submit form
     fireEvent.change(screen.getByLabelText(/Patient Name/i), {
-      target: { value: 'Test Patient' },
+      target: { value: "Test Patient" },
     });
 
     // Note: In a real test, you'd fill all required fields
@@ -138,19 +140,19 @@ describe('CarePlanDisplay Component', () => {
     });
   });
 
-  it('displays error message when generation fails', async () => {
-    const { generateCarePlan } = await import('../services/api');
+  it("displays error message when generation fails", async () => {
+    const { generateCarePlan } = await import("../services/api");
 
     // Mock failed API response
     vi.mocked(generateCarePlan).mockRejectedValue(
-      new Error('API Error: Failed to generate care plan')
+      new Error("API Error: Failed to generate care plan"),
     );
 
     renderApp();
 
     // Fill and submit form
     fireEvent.change(screen.getByLabelText(/Patient Name/i), {
-      target: { value: 'Test Patient' },
+      target: { value: "Test Patient" },
     });
 
     const submitButton = screen.getByText(/Generate Care Plan/i);
@@ -162,18 +164,18 @@ describe('CarePlanDisplay Component', () => {
     });
   });
 
-  it('allows user to create a new care plan after viewing one', async () => {
-    const { generateCarePlan } = await import('../services/api');
+  it("allows user to create a new care plan after viewing one", async () => {
+    const { generateCarePlan } = await import("../services/api");
 
     vi.mocked(generateCarePlan).mockResolvedValue({
-      care_plan_html: '<h1>Test Care Plan</h1>',
+      care_plan_html: "<h1>Test Care Plan</h1>",
     });
 
     renderApp();
 
     // Generate a care plan (simplified)
     fireEvent.change(screen.getByLabelText(/Patient Name/i), {
-      target: { value: 'Test Patient' },
+      target: { value: "Test Patient" },
     });
     fireEvent.click(screen.getByText(/Generate Care Plan/i));
 
@@ -193,42 +195,48 @@ describe('CarePlanDisplay Component', () => {
   });
 });
 
-describe('SearchableSelect Component', () => {
-  it('displays preset options for symptoms', () => {
+describe("SearchableSelect Component", () => {
+  it("displays preset options for symptoms", () => {
     renderApp();
 
     // Find symptoms field
-    const symptomsInput = screen.getByPlaceholderText(/Type to search symptoms/i);
+    const symptomsInput = screen.getByPlaceholderText(
+      /Type to search symptoms/i,
+    );
     expect(symptomsInput).toBeInTheDocument();
   });
 
-  it('filters options when user types', () => {
+  it("filters options when user types", () => {
     renderApp();
 
-    const symptomsInput = screen.getByPlaceholderText(/Type to search symptoms/i);
+    const symptomsInput = screen.getByPlaceholderText(
+      /Type to search symptoms/i,
+    );
 
     // Type to filter
-    fireEvent.change(symptomsInput, { target: { value: 'pain' } });
+    fireEvent.change(symptomsInput, { target: { value: "pain" } });
 
     // Should filter options (implementation-dependent)
     // This is a placeholder test - adjust based on actual implementation
   });
 
-  it('adds selected items as chips', async () => {
+  it("adds selected items as chips", async () => {
     renderApp();
 
-    const symptomsInput = screen.getByPlaceholderText(/Type to search symptoms/i);
+    const symptomsInput = screen.getByPlaceholderText(
+      /Type to search symptoms/i,
+    );
 
     // Type and select an option
-    fireEvent.change(symptomsInput, { target: { value: 'Chest pain' } });
+    fireEvent.change(symptomsInput, { target: { value: "Chest pain" } });
 
     // In a real test, you'd simulate clicking on the dropdown option
     // Then check that a chip with "Chest pain" appears
   });
 });
 
-describe('Accessibility', () => {
-  it('has proper form labels', () => {
+describe("Accessibility", () => {
+  it("has proper form labels", () => {
     renderApp();
 
     // All form fields should have associated labels
@@ -238,24 +246,22 @@ describe('Accessibility', () => {
     // Add more label checks...
   });
 
-  it('submit button has proper ARIA attributes', () => {
+  it("submit button has proper ARIA attributes", () => {
     renderApp();
 
     const submitButton = screen.getByText(/Generate Care Plan/i);
-    expect(submitButton).toHaveAttribute('type', 'submit');
+    expect(submitButton).toHaveAttribute("type", "submit");
   });
 
-  it('loading state is announced to screen readers', async () => {
-    const { generateCarePlan } = await import('../services/api');
+  it("loading state is announced to screen readers", async () => {
+    const { generateCarePlan } = await import("../services/api");
 
-    vi.mocked(generateCarePlan).mockImplementation(
-      () => new Promise(() => {})
-    );
+    vi.mocked(generateCarePlan).mockImplementation(() => new Promise(() => {}));
 
     renderApp();
 
     fireEvent.change(screen.getByLabelText(/Patient Name/i), {
-      target: { value: 'Test Patient' },
+      target: { value: "Test Patient" },
     });
     fireEvent.click(screen.getByText(/Generate Care Plan/i));
 
@@ -267,12 +273,12 @@ describe('Accessibility', () => {
   });
 });
 
-describe('Integration Tests', () => {
-  it('completes full workflow: load example -> generate -> view -> new', async () => {
-    const { generateCarePlan } = await import('../services/api');
+describe("Integration Tests", () => {
+  it("completes full workflow: load example -> generate -> view -> new", async () => {
+    const { generateCarePlan } = await import("../services/api");
 
     vi.mocked(generateCarePlan).mockResolvedValue({
-      care_plan_html: '<h1>Comprehensive Care Plan</h1>',
+      care_plan_html: "<h1>Comprehensive Care Plan</h1>",
     });
 
     renderApp();
@@ -282,7 +288,7 @@ describe('Integration Tests', () => {
 
     await waitFor(() => {
       const nameInput = screen.getByLabelText(/Patient Name/i);
-      expect(nameInput).not.toHaveValue('');
+      expect(nameInput).not.toHaveValue("");
     });
 
     // Step 2: Generate care plan

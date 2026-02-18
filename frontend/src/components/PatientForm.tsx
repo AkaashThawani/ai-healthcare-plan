@@ -2,16 +2,16 @@
  * PatientForm component - Improved UI with searchable selects and better formatting.
  * Clean, medical-professional interface with preset options.
  */
-import { useState, FormEvent } from 'react';
-import type { PatientInput, Medication } from '../types';
-import { mockPatients } from '../data/mockPatients';
-import { SearchableSelect } from './SearchableSelect';
+import { useState, FormEvent } from "react";
+import type { PatientInput, Medication } from "../types";
+import { mockPatients } from "../data/mockPatients";
+import { SearchableSelect } from "./SearchableSelect";
 import {
   COMMON_SYMPTOMS,
   COMMON_FALL_RISK_FACTORS,
   COMMON_COMORBIDITIES,
   COMMON_ALLERGIES,
-} from '../data/presets';
+} from "../data/presets";
 
 interface PatientFormProps {
   onSubmit: (patient: PatientInput) => void;
@@ -20,14 +20,14 @@ interface PatientFormProps {
 
 export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
   const [formData, setFormData] = useState<PatientInput>({
-    name: '',
+    name: "",
     age: 65,
-    gender: 'Male',
-    admission_date: new Date().toISOString().split('T')[0],
-    facility: '',
-    primary_diagnosis: '',
+    gender: "Male",
+    admission_date: new Date().toISOString().split("T")[0],
+    facility: "",
+    primary_diagnosis: "",
     comorbidities: [],
-    blood_pressure: '',
+    blood_pressure: "",
     heart_rate: 75,
     temperature: 98.6,
     oxygen_saturation: 98,
@@ -35,21 +35,24 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
     current_medications: [],
     allergies: [],
     symptoms: [],
-    mobility_level: 'ambulatory',
-    adl_independence: '',
+    mobility_level: "ambulatory",
+    adl_independence: "",
     fall_risk_factors: [],
-    cognitive_status: '',
+    cognitive_status: "",
     isolation_precautions: null,
     diet_restrictions: null,
   });
 
   const [medicationInputs, setMedicationInputs] = useState({
-    name: '',
-    dosage: '',
-    frequency: '',
+    name: "",
+    dosage: "",
+    frequency: "",
   });
 
-  const handleInputChange = (field: keyof PatientInput, value: string | number | null) => {
+  const handleInputChange = (
+    field: keyof PatientInput,
+    value: string | number | null,
+  ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -57,13 +60,19 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
     if (!value.trim()) return;
     const currentArray = formData[field] as string[];
     if (!currentArray.includes(value.trim())) {
-      setFormData((prev) => ({ ...prev, [field]: [...currentArray, value.trim()] }));
+      setFormData((prev) => ({
+        ...prev,
+        [field]: [...currentArray, value.trim()],
+      }));
     }
   };
 
   const handleArrayRemove = (field: keyof PatientInput, index: number) => {
     const currentArray = formData[field] as string[];
-    setFormData((prev) => ({ ...prev, [field]: currentArray.filter((_, i) => i !== index) }));
+    setFormData((prev) => ({
+      ...prev,
+      [field]: currentArray.filter((_, i) => i !== index),
+    }));
   };
 
   const handleMedicationAdd = () => {
@@ -81,13 +90,15 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
       current_medications: [...prev.current_medications, newMed],
     }));
 
-    setMedicationInputs({ name: '', dosage: '', frequency: '' });
+    setMedicationInputs({ name: "", dosage: "", frequency: "" });
   };
 
   const handleMedicationRemove = (index: number) => {
     setFormData((prev) => ({
       ...prev,
-      current_medications: prev.current_medications.filter((_, i) => i !== index),
+      current_medications: prev.current_medications.filter(
+        (_, i) => i !== index,
+      ),
     }));
   };
 
@@ -108,20 +119,29 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
       {/* Header */}
       <div className="flex items-center justify-between pb-4 border-b-2 border-blue-100">
         <div>
-          <h2 className="text-3xl font-bold text-gray-900">Patient Information</h2>
-          <p className="text-sm text-gray-600 mt-1">Complete the form below to generate a care plan</p>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Patient Information
+          </h2>
+          <p className="text-sm text-gray-600 mt-1">
+            Complete the form below to generate a care plan
+          </p>
         </div>
         <div className="no-print">
-          <label className="text-xs text-gray-600 block mb-1">Quick Load:</label>
+          <label className="text-xs text-gray-600 block mb-1">
+            Quick Load:
+          </label>
           <select
             onChange={(e) => handleLoadMockPatient(parseInt(e.target.value))}
             className="text-sm px-3 py-2 border border-gray-300 rounded-md hover:border-blue-500 transition-colors"
             defaultValue=""
           >
-            <option value="" disabled>Load Mock Patient</option>
+            <option value="" disabled>
+              Load Mock Patient
+            </option>
             {mockPatients.map((patient, idx) => (
               <option key={idx} value={idx}>
-                {patient.name} ({patient.age}yo - {patient.primary_diagnosis.substring(0, 30)}...)
+                {patient.name} ({patient.age}yo -{" "}
+                {patient.primary_diagnosis.substring(0, 30)}...)
               </option>
             ))}
           </select>
@@ -139,7 +159,7 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             <input
               type="text"
               value={formData.name}
-              onChange={(e) => handleInputChange('name', e.target.value)}
+              onChange={(e) => handleInputChange("name", e.target.value)}
               className="form-input text-base"
               required
               disabled={isLoading}
@@ -150,7 +170,9 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             <input
               type="number"
               value={formData.age}
-              onChange={(e) => handleInputChange('age', parseInt(e.target.value))}
+              onChange={(e) =>
+                handleInputChange("age", parseInt(e.target.value))
+              }
               className="form-input text-base"
               min="0"
               max="120"
@@ -162,7 +184,7 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             <label className="form-label text-base">Gender *</label>
             <select
               value={formData.gender}
-              onChange={(e) => handleInputChange('gender', e.target.value)}
+              onChange={(e) => handleInputChange("gender", e.target.value)}
               className="form-input text-base"
               required
               disabled={isLoading}
@@ -177,7 +199,9 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             <input
               type="date"
               value={formData.admission_date}
-              onChange={(e) => handleInputChange('admission_date', e.target.value)}
+              onChange={(e) =>
+                handleInputChange("admission_date", e.target.value)
+              }
               className="form-input text-base"
               required
               disabled={isLoading}
@@ -188,7 +212,7 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             <input
               type="text"
               value={formData.facility}
-              onChange={(e) => handleInputChange('facility', e.target.value)}
+              onChange={(e) => handleInputChange("facility", e.target.value)}
               className="form-input text-base"
               required
               disabled={isLoading}
@@ -208,7 +232,9 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             <input
               type="text"
               value={formData.primary_diagnosis}
-              onChange={(e) => handleInputChange('primary_diagnosis', e.target.value)}
+              onChange={(e) =>
+                handleInputChange("primary_diagnosis", e.target.value)
+              }
               className="form-input text-base"
               placeholder="e.g., Congestive Heart Failure, Stroke, COPD"
               required
@@ -219,8 +245,8 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             label="Comorbidities"
             options={COMMON_COMORBIDITIES}
             selectedValues={formData.comorbidities}
-            onAdd={(value) => handleArrayAdd('comorbidities', value)}
-            onRemove={(index) => handleArrayRemove('comorbidities', index)}
+            onAdd={(value) => handleArrayAdd("comorbidities", value)}
+            onRemove={(index) => handleArrayRemove("comorbidities", index)}
             placeholder="Type to search or add custom comorbidity..."
             disabled={isLoading}
           />
@@ -238,7 +264,9 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             <input
               type="text"
               value={formData.blood_pressure}
-              onChange={(e) => handleInputChange('blood_pressure', e.target.value)}
+              onChange={(e) =>
+                handleInputChange("blood_pressure", e.target.value)
+              }
               className="form-input text-base"
               placeholder="120/80"
               required
@@ -250,7 +278,9 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             <input
               type="number"
               value={formData.heart_rate}
-              onChange={(e) => handleInputChange('heart_rate', parseInt(e.target.value))}
+              onChange={(e) =>
+                handleInputChange("heart_rate", parseInt(e.target.value))
+              }
               className="form-input text-base"
               min="20"
               max="300"
@@ -264,7 +294,9 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
               type="number"
               step="0.1"
               value={formData.temperature}
-              onChange={(e) => handleInputChange('temperature', parseFloat(e.target.value))}
+              onChange={(e) =>
+                handleInputChange("temperature", parseFloat(e.target.value))
+              }
               className="form-input text-base"
               min="90"
               max="110"
@@ -277,7 +309,9 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             <input
               type="number"
               value={formData.oxygen_saturation}
-              onChange={(e) => handleInputChange('oxygen_saturation', parseInt(e.target.value))}
+              onChange={(e) =>
+                handleInputChange("oxygen_saturation", parseInt(e.target.value))
+              }
               className="form-input text-base"
               min="0"
               max="100"
@@ -290,7 +324,9 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             <input
               type="number"
               value={formData.pain_level}
-              onChange={(e) => handleInputChange('pain_level', parseInt(e.target.value))}
+              onChange={(e) =>
+                handleInputChange("pain_level", parseInt(e.target.value))
+              }
               className="form-input text-base"
               min="0"
               max="10"
@@ -310,7 +346,9 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
           <input
             type="text"
             value={medicationInputs.name}
-            onChange={(e) => setMedicationInputs((prev) => ({ ...prev, name: e.target.value }))}
+            onChange={(e) =>
+              setMedicationInputs((prev) => ({ ...prev, name: e.target.value }))
+            }
             className="form-input text-base"
             placeholder="Medication name"
             disabled={isLoading}
@@ -318,7 +356,12 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
           <input
             type="text"
             value={medicationInputs.dosage}
-            onChange={(e) => setMedicationInputs((prev) => ({ ...prev, dosage: e.target.value }))}
+            onChange={(e) =>
+              setMedicationInputs((prev) => ({
+                ...prev,
+                dosage: e.target.value,
+              }))
+            }
             className="form-input text-base"
             placeholder="Dosage (e.g., 10mg)"
             disabled={isLoading}
@@ -326,7 +369,12 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
           <input
             type="text"
             value={medicationInputs.frequency}
-            onChange={(e) => setMedicationInputs((prev) => ({ ...prev, frequency: e.target.value }))}
+            onChange={(e) =>
+              setMedicationInputs((prev) => ({
+                ...prev,
+                frequency: e.target.value,
+              }))
+            }
             className="form-input text-base"
             placeholder="Frequency (e.g., BID)"
             disabled={isLoading}
@@ -343,7 +391,10 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
         {formData.current_medications.length > 0 && (
           <div className="mt-4 space-y-2">
             {formData.current_medications.map((med, idx) => (
-              <div key={idx} className="flex items-center justify-between p-3 bg-white rounded border border-gray-200">
+              <div
+                key={idx}
+                className="flex items-center justify-between p-3 bg-white rounded border border-gray-200"
+              >
                 <span className="text-base">
                   <strong>{med.name}</strong> - {med.dosage} {med.frequency}
                 </span>
@@ -370,8 +421,8 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
           label=""
           options={COMMON_ALLERGIES}
           selectedValues={formData.allergies}
-          onAdd={(value) => handleArrayAdd('allergies', value)}
-          onRemove={(index) => handleArrayRemove('allergies', index)}
+          onAdd={(value) => handleArrayAdd("allergies", value)}
+          onRemove={(index) => handleArrayRemove("allergies", index)}
           placeholder="Type to search allergies or add custom..."
           disabled={isLoading}
         />
@@ -387,8 +438,8 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             label="Current Symptoms"
             options={COMMON_SYMPTOMS}
             selectedValues={formData.symptoms}
-            onAdd={(value) => handleArrayAdd('symptoms', value)}
-            onRemove={(index) => handleArrayRemove('symptoms', index)}
+            onAdd={(value) => handleArrayAdd("symptoms", value)}
+            onRemove={(index) => handleArrayRemove("symptoms", index)}
             placeholder="Type to search symptoms or add custom..."
             disabled={isLoading}
           />
@@ -398,7 +449,9 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
               <label className="form-label text-base">Mobility Level *</label>
               <select
                 value={formData.mobility_level}
-                onChange={(e) => handleInputChange('mobility_level', e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("mobility_level", e.target.value)
+                }
                 className="form-input text-base"
                 required
                 disabled={isLoading}
@@ -414,7 +467,9 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
               <input
                 type="text"
                 value={formData.adl_independence}
-                onChange={(e) => handleInputChange('adl_independence', e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("adl_independence", e.target.value)
+                }
                 className="form-input text-base"
                 placeholder="e.g., Requires assistance with all ADLs"
                 required
@@ -427,8 +482,8 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             label="Fall Risk Factors"
             options={COMMON_FALL_RISK_FACTORS}
             selectedValues={formData.fall_risk_factors}
-            onAdd={(value) => handleArrayAdd('fall_risk_factors', value)}
-            onRemove={(index) => handleArrayRemove('fall_risk_factors', index)}
+            onAdd={(value) => handleArrayAdd("fall_risk_factors", value)}
+            onRemove={(index) => handleArrayRemove("fall_risk_factors", index)}
             placeholder="Type to search fall risks or add custom..."
             disabled={isLoading}
           />
@@ -438,7 +493,9 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             <input
               type="text"
               value={formData.cognitive_status}
-              onChange={(e) => handleInputChange('cognitive_status', e.target.value)}
+              onChange={(e) =>
+                handleInputChange("cognitive_status", e.target.value)
+              }
               className="form-input text-base"
               placeholder="e.g., Alert and oriented x3, or Confused"
               required
@@ -455,11 +512,18 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="form-label text-base">Isolation Precautions</label>
+            <label className="form-label text-base">
+              Isolation Precautions
+            </label>
             <input
               type="text"
-              value={formData.isolation_precautions || ''}
-              onChange={(e) => handleInputChange('isolation_precautions', e.target.value || null)}
+              value={formData.isolation_precautions || ""}
+              onChange={(e) =>
+                handleInputChange(
+                  "isolation_precautions",
+                  e.target.value || null,
+                )
+              }
               className="form-input text-base"
               placeholder="None (or specify type)"
               disabled={isLoading}
@@ -469,8 +533,10 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
             <label className="form-label text-base">Diet Restrictions</label>
             <input
               type="text"
-              value={formData.diet_restrictions || ''}
-              onChange={(e) => handleInputChange('diet_restrictions', e.target.value || null)}
+              value={formData.diet_restrictions || ""}
+              onChange={(e) =>
+                handleInputChange("diet_restrictions", e.target.value || null)
+              }
               className="form-input text-base"
               placeholder="None (or specify restrictions)"
               disabled={isLoading}
@@ -488,14 +554,30 @@ export function PatientForm({ onSubmit, isLoading }: PatientFormProps) {
         >
           {isLoading ? (
             <span className="flex items-center gap-3">
-              <svg className="animate-spin h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              <svg
+                className="animate-spin h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
               </svg>
               Generating Care Plan...
             </span>
           ) : (
-            '🚀 Generate Care Plan'
+            "🚀 Generate Care Plan"
           )}
         </button>
       </div>

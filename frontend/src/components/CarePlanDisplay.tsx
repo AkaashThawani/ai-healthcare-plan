@@ -2,26 +2,29 @@
  * CarePlanDisplay component - Displays the AI-generated care plan.
  * Clean, printable format with professional styling.
  */
-import type { CarePlanOutput } from '../types';
+import type { CarePlanOutput } from "../types";
 
 interface CarePlanDisplayProps {
   carePlan: CarePlanOutput;
   onGenerateNew: () => void;
 }
 
-export function CarePlanDisplay({ carePlan, onGenerateNew }: CarePlanDisplayProps) {
+export function CarePlanDisplay({
+  carePlan,
+  onGenerateNew,
+}: CarePlanDisplayProps) {
   const handlePrint = () => {
     window.print();
   };
 
   const formatDate = (isoString: string): string => {
     const date = new Date(isoString);
-    return date.toLocaleString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+    return date.toLocaleString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -31,8 +34,13 @@ export function CarePlanDisplay({ carePlan, onGenerateNew }: CarePlanDisplayProp
       <div className="flex items-center justify-between pb-4 border-b-2 border-blue-100 no-print">
         <div>
           <h2 className="text-3xl font-bold text-gray-900">Care Plan</h2>
-          <p className="text-lg text-gray-600 mt-1">Patient: <span className="font-semibold">{carePlan.patient_name}</span></p>
-          <p className="text-sm text-gray-500 mt-1">Generated: {formatDate(carePlan.generated_at)}</p>
+          <p className="text-lg text-gray-600 mt-1">
+            Patient:{" "}
+            <span className="font-semibold">{carePlan.patient_name}</span>
+          </p>
+          <p className="text-sm text-gray-500 mt-1">
+            Generated: {formatDate(carePlan.generated_at)}
+          </p>
         </div>
         <button
           onClick={handlePrint}

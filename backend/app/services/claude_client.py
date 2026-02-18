@@ -2,8 +2,10 @@
 Anthropic Claude API client for generating care plans.
 Simple, modular wrapper around the Anthropic SDK.
 """
+
 import httpx
 from anthropic import Anthropic, APIError
+
 from app.config import settings
 from app.utils.logger import setup_logger
 
@@ -20,8 +22,7 @@ class ClaudeClient:
         http_client = httpx.Client(verify=False)
 
         self.client = Anthropic(
-            api_key=settings.anthropic_api_key,
-            http_client=http_client
+            api_key=settings.anthropic_api_key, http_client=http_client
         )
         self.model = "claude-sonnet-4-20250514"
         logger.info(f"Claude API client initialized with model: {self.model}")

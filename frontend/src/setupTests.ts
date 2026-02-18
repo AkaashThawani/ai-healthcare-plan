@@ -2,7 +2,7 @@
  * Test setup file for Vitest.
  * This file runs before all tests.
  */
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 
 // Add custom matchers
 // Example: expect(element).toBeInTheDocument()
@@ -28,9 +28,9 @@ afterAll(() => {
 });
 
 // Mock window.matchMedia (not implemented in jsdom)
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(window, "matchMedia", {
   writable: true,
-  value: vi.fn().mockImplementation(query => ({
+  value: vi.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,

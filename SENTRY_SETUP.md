@@ -23,6 +23,7 @@ Sentry provides real-time error tracking and performance monitoring for both fro
 You need **TWO** projects (one for backend, one for frontend):
 
 #### Backend Project
+
 1. Click **"Create Project"**
 2. Platform: **Python**
 3. Project name: `care-plan-generator-backend`
@@ -31,6 +32,7 @@ You need **TWO** projects (one for backend, one for frontend):
 6. Save this as `BACKEND_SENTRY_DSN`
 
 #### Frontend Project
+
 1. Click **"Create Project"** again
 2. Platform: **React**
 3. Project name: `care-plan-generator-frontend`
@@ -41,6 +43,7 @@ You need **TWO** projects (one for backend, one for frontend):
 ### 3. Add DSN to Environment Variables
 
 #### Backend (.env)
+
 ```bash
 cd backend
 # Edit .env file
@@ -48,6 +51,7 @@ SENTRY_DSN=https://your-backend-dsn@sentry.io/project-id
 ```
 
 #### Frontend (.env)
+
 ```bash
 cd frontend
 # Edit .env file
@@ -57,6 +61,7 @@ VITE_SENTRY_DSN=https://your-frontend-dsn@sentry.io/project-id
 ### 4. Install Sentry SDKs
 
 #### Backend
+
 ```bash
 cd backend
 # Uncomment sentry-sdk in requirements.txt
@@ -64,6 +69,7 @@ pip install sentry-sdk[fastapi]
 ```
 
 #### Frontend
+
 ```bash
 cd frontend
 npm install @sentry/react
@@ -74,6 +80,7 @@ npm install @sentry/react
 The code is ready, just needs your DSN!
 
 #### Backend (`backend/app/main.py`)
+
 ```python
 # Uncomment these lines:
 import sentry_sdk
@@ -88,6 +95,7 @@ sentry_sdk.init(
 ```
 
 #### Frontend (`frontend/src/main.tsx`)
+
 ```typescript
 // Add at the top:
 import * as Sentry from "@sentry/react";
@@ -108,12 +116,14 @@ Sentry.init({
 ### 6. Test Error Tracking
 
 #### Test Backend
+
 ```bash
 # Add a test endpoint (or trigger an error)
 curl http://localhost:8000/sentry-debug
 ```
 
 #### Test Frontend
+
 ```javascript
 // Add a button to trigger test error:
 throw new Error("Sentry test error!");
@@ -124,6 +134,7 @@ Check your Sentry dashboard - you should see the error appear!
 ## What Sentry Tracks
 
 ### Backend
+
 - ✅ API errors and exceptions
 - ✅ Performance of endpoints
 - ✅ Request/response context
@@ -131,6 +142,7 @@ Check your Sentry dashboard - you should see the error appear!
 - ✅ Environment info
 
 ### Frontend
+
 - ✅ JavaScript errors
 - ✅ React component errors
 - ✅ Network errors (failed API calls)
@@ -153,13 +165,17 @@ Check your Sentry dashboard - you should see the error appear!
 ## Performance Monitoring
 
 ### Backend
+
 Track slow API endpoints:
+
 - Response times
 - Database queries
 - External API calls
 
 ### Frontend
+
 Track slow page loads:
+
 - Component render times
 - Network requests
 - User interactions
@@ -167,6 +183,7 @@ Track slow page loads:
 ## Alerts
 
 Set up alerts in Sentry:
+
 1. Go to **Alerts** → **Create Alert**
 2. Choose trigger (e.g., "New issue created")
 3. Choose action (e.g., email, Slack, webhook)
@@ -179,11 +196,13 @@ Get notified immediately when errors occur!
 If you don't want Sentry in development:
 
 **Backend (.env)**
+
 ```bash
 SENTRY_DSN=  # Leave empty
 ```
 
 **Frontend (.env)**
+
 ```bash
 VITE_SENTRY_DSN=  # Leave empty
 ```
@@ -200,12 +219,14 @@ For this prototype, free tier is more than enough!
 ## Troubleshooting
 
 **Errors not showing up:**
+
 - Check DSN is correct
 - Verify Sentry is initialized before app code runs
 - Check network requests in browser dev tools
 - Ensure CORS allows sentry.io
 
 **Too many errors:**
+
 - Adjust sample rates (tracesSampleRate, etc.)
 - Add filters in Sentry dashboard
 - Ignore known issues
@@ -218,6 +239,6 @@ For this prototype, free tier is more than enough!
 
 ## Need Help?
 
-- Sentry Docs: https://docs.sentry.io
-- React Setup: https://docs.sentry.io/platforms/javascript/guides/react/
-- FastAPI Setup: https://docs.sentry.io/platforms/python/integrations/fastapi/
+- Sentry Docs: <https://docs.sentry.io>
+- React Setup: <https://docs.sentry.io/platforms/javascript/guides/react/>
+- FastAPI Setup: <https://docs.sentry.io/platforms/python/integrations/fastapi/>

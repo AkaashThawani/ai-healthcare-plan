@@ -2,7 +2,7 @@
  * SearchableSelect component - Dropdown with search/filter functionality.
  * Selected items display as chips below.
  */
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from "react";
 
 interface SearchableSelectProps {
   options: string[];
@@ -19,11 +19,11 @@ export function SearchableSelect({
   selectedValues,
   onAdd,
   onRemove,
-  placeholder = 'Type to search or add custom...',
+  placeholder = "Type to search or add custom...",
   label,
   disabled = false,
 }: SearchableSelectProps) {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [filteredOptions, setFilteredOptions] = useState<string[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -32,7 +32,7 @@ export function SearchableSelect({
   useEffect(() => {
     if (inputValue.trim()) {
       const filtered = options.filter((option) =>
-        option.toLowerCase().includes(inputValue.toLowerCase())
+        option.toLowerCase().includes(inputValue.toLowerCase()),
       );
       setFilteredOptions(filtered);
     } else {
@@ -43,30 +43,33 @@ export function SearchableSelect({
   // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     }
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleAdd = (value: string) => {
     if (value.trim() && !selectedValues.includes(value.trim())) {
       onAdd(value.trim());
-      setInputValue('');
+      setInputValue("");
       setIsOpen(false);
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       if (inputValue.trim()) {
         handleAdd(inputValue);
       }
-    } else if (e.key === 'Escape') {
+    } else if (e.key === "Escape") {
       setIsOpen(false);
     }
   };
@@ -93,7 +96,7 @@ export function SearchableSelect({
         {inputValue && (
           <button
             type="button"
-            onClick={() => setInputValue('')}
+            onClick={() => setInputValue("")}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
             disabled={disabled}
           >
@@ -122,7 +125,8 @@ export function SearchableSelect({
           ))}
           {filteredOptions.length > 20 && (
             <div className="px-4 py-2 text-xs text-gray-500 italic">
-              ...and {filteredOptions.length - 20} more. Keep typing to narrow results.
+              ...and {filteredOptions.length - 20} more. Keep typing to narrow
+              results.
             </div>
           )}
         </div>

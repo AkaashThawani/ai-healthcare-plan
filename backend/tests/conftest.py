@@ -2,8 +2,10 @@
 Pytest configuration file.
 Contains fixtures and configuration for all tests.
 """
+
+from collections.abc import Generator
+
 import pytest
-from typing import Generator
 from fastapi.testclient import TestClient
 
 from app.main import app
@@ -43,7 +45,7 @@ def sample_patient_minimal():
         "mobility_level": "Independent",
         "adl_independence": "Independent",
         "fall_risk_factors": [],
-        "cognitive_status": "Alert"
+        "cognitive_status": "Alert",
     }
 
 
@@ -60,7 +62,7 @@ def sample_patient_comprehensive():
         "comorbidities": [
             "Chronic Kidney Disease Stage 3",
             "Type 2 Diabetes Mellitus",
-            "Hypertension"
+            "Hypertension",
         ],
         "blood_pressure": "152/88",
         "heart_rate": 92,
@@ -68,9 +70,13 @@ def sample_patient_comprehensive():
         "oxygen_saturation": 92,
         "pain_level": 4,
         "current_medications": [
-            {"name": "Furosemide (Lasix)", "dosage": "40mg", "frequency": "twice daily"},
+            {
+                "name": "Furosemide (Lasix)",
+                "dosage": "40mg",
+                "frequency": "twice daily",
+            },
             {"name": "Lisinopril", "dosage": "20mg", "frequency": "once daily"},
-            {"name": "Metformin", "dosage": "1000mg", "frequency": "twice daily"}
+            {"name": "Metformin", "dosage": "1000mg", "frequency": "twice daily"},
         ],
         "allergies": ["Sulfa drugs"],
         "symptoms": ["Shortness of breath", "Bilateral leg edema", "Fatigue"],
@@ -79,7 +85,7 @@ def sample_patient_comprehensive():
         "fall_risk_factors": ["Weakness", "Diuretic use", "Age > 80"],
         "cognitive_status": "Alert and oriented x3, mild forgetfulness",
         "isolation_precautions": None,
-        "diet_restrictions": "2g sodium restriction, diabetic diet, fluid restriction 1500mL/day"
+        "diet_restrictions": "2g sodium restriction, diabetic diet, fluid restriction 1500mL/day",
     }
 
 
@@ -87,14 +93,7 @@ def sample_patient_comprehensive():
 def pytest_configure(config):
     """Configure custom pytest markers."""
     config.addinivalue_line(
-        "markers",
-        "requires_api_key: mark test as requiring Anthropic API key"
+        "markers", "requires_api_key: mark test as requiring Anthropic API key"
     )
-    config.addinivalue_line(
-        "markers",
-        "slow: mark test as slow running"
-    )
-    config.addinivalue_line(
-        "markers",
-        "integration: mark test as integration test"
-    )
+    config.addinivalue_line("markers", "slow: mark test as slow running")
+    config.addinivalue_line("markers", "integration: mark test as integration test")

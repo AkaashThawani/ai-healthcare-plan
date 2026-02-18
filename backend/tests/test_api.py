@@ -4,12 +4,13 @@ Example API tests for Care Plan Generator backend.
 These tests demonstrate how to test the FastAPI endpoints using pytest.
 Run with: pytest
 """
-import pytest
-from fastapi.testclient import TestClient
+
 from datetime import date
 
+import pytest
+from fastapi.testclient import TestClient
+
 from app.main import app
-from app.models import PatientInput
 
 # Create test client
 client = TestClient(app)
@@ -62,7 +63,7 @@ class TestCarePlanEndpoint:
             "pain_level": 3,
             "current_medications": [
                 {"name": "Metformin", "dosage": "500mg", "frequency": "twice daily"},
-                {"name": "Lisinopril", "dosage": "10mg", "frequency": "once daily"}
+                {"name": "Lisinopril", "dosage": "10mg", "frequency": "once daily"},
             ],
             "allergies": ["Penicillin"],
             "symptoms": ["Weakness on right side", "Difficulty speaking"],
@@ -71,7 +72,7 @@ class TestCarePlanEndpoint:
             "fall_risk_factors": ["Weakness", "Balance impairment"],
             "cognitive_status": "Alert and oriented x3",
             "isolation_precautions": None,
-            "diet_restrictions": "Diabetic diet"
+            "diet_restrictions": "Diabetic diet",
         }
 
     def test_generate_care_plan_success(self, valid_patient_data):
@@ -133,7 +134,7 @@ class TestCarePlanEndpoint:
             "mobility_level": "Independent",
             "adl_independence": "Independent",
             "fall_risk_factors": [],
-            "cognitive_status": "Alert"
+            "cognitive_status": "Alert",
         }
 
         response = client.post("/generate-care-plan", json=minimal_data)
@@ -161,7 +162,7 @@ class TestValidation:
             "pain_level": 0,
             "mobility_level": "Independent",
             "adl_independence": "Independent",
-            "cognitive_status": "Alert"
+            "cognitive_status": "Alert",
         }
 
         response = client.post("/generate-care-plan", json=data)
@@ -183,7 +184,7 @@ class TestValidation:
             "pain_level": 0,
             "mobility_level": "Independent",
             "adl_independence": "Independent",
-            "cognitive_status": "Alert"
+            "cognitive_status": "Alert",
         }
 
         response = client.post("/generate-care-plan", json=data)
@@ -205,7 +206,7 @@ class TestValidation:
             "pain_level": 0,
             "mobility_level": "Independent",
             "adl_independence": "Independent",
-            "cognitive_status": "Alert"
+            "cognitive_status": "Alert",
         }
 
         response = client.post("/generate-care-plan", json=data)
@@ -247,16 +248,24 @@ class TestWithAPIKey:
             "admission_date": "2026-02-10",
             "facility": "Sunrise Skilled Nursing Facility",
             "primary_diagnosis": "Congestive Heart Failure (CHF) Exacerbation",
-            "comorbidities": ["Chronic Kidney Disease Stage 3", "Type 2 Diabetes Mellitus", "Hypertension"],
+            "comorbidities": [
+                "Chronic Kidney Disease Stage 3",
+                "Type 2 Diabetes Mellitus",
+                "Hypertension",
+            ],
             "blood_pressure": "152/88",
             "heart_rate": 92,
             "temperature": 98.4,
             "oxygen_saturation": 92,
             "pain_level": 4,
             "current_medications": [
-                {"name": "Furosemide (Lasix)", "dosage": "40mg", "frequency": "twice daily"},
+                {
+                    "name": "Furosemide (Lasix)",
+                    "dosage": "40mg",
+                    "frequency": "twice daily",
+                },
                 {"name": "Lisinopril", "dosage": "20mg", "frequency": "once daily"},
-                {"name": "Metformin", "dosage": "1000mg", "frequency": "twice daily"}
+                {"name": "Metformin", "dosage": "1000mg", "frequency": "twice daily"},
             ],
             "allergies": ["Sulfa drugs"],
             "symptoms": ["Shortness of breath", "Bilateral leg edema", "Fatigue"],
@@ -265,7 +274,7 @@ class TestWithAPIKey:
             "fall_risk_factors": ["Weakness", "Diuretic use", "Age > 80"],
             "cognitive_status": "Alert and oriented x3, mild forgetfulness",
             "isolation_precautions": None,
-            "diet_restrictions": "2g sodium restriction, diabetic diet, fluid restriction 1500mL/day"
+            "diet_restrictions": "2g sodium restriction, diabetic diet, fluid restriction 1500mL/day",
         }
 
         response = client.post("/generate-care-plan", json=patient_data)
@@ -279,7 +288,9 @@ class TestWithAPIKey:
 
         # Verify care plan contains expected content
         assert len(care_plan) > 500  # Substantial content
-        assert "nursing diagnos" in care_plan.lower() or "diagnosis" in care_plan.lower()
+        assert (
+            "nursing diagnos" in care_plan.lower() or "diagnosis" in care_plan.lower()
+        )
         assert "goal" in care_plan.lower() or "intervention" in care_plan.lower()
 
 

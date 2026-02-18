@@ -30,6 +30,7 @@ Snyk provides automated security vulnerability scanning for your dependencies.
 ### 4. Verify Setup
 
 After adding the secret:
+
 1. Push a commit or create a PR
 2. Go to **Actions** tab in GitHub
 3. Check if the "Security Scan (Snyk)" job runs successfully
@@ -38,6 +39,7 @@ After adding the secret:
 ## What Snyk Checks
 
 Snyk will scan for:
+
 - ✅ Known vulnerabilities in npm packages (frontend)
 - ✅ Known vulnerabilities in Python packages (backend)
 - ✅ License compliance issues
@@ -46,6 +48,7 @@ Snyk will scan for:
 ## CI/CD Integration
 
 The Snyk scan:
+
 - Runs on every push to main/master/develop
 - Runs on every pull request
 - Continues CI pipeline even if vulnerabilities found (`continue-on-error: true`)
@@ -57,16 +60,19 @@ The Snyk scan:
 You can also run Snyk locally:
 
 ### Install Snyk CLI
+
 ```bash
 npm install -g snyk
 ```
 
 ### Authenticate
+
 ```bash
 snyk auth
 ```
 
 ### Scan Your Project
+
 ```bash
 # Scan everything
 snyk test --all-projects
@@ -81,12 +87,14 @@ cd backend && snyk test
 ## Viewing Results
 
 ### In GitHub
+
 1. Go to **Actions** tab
 2. Click on any workflow run
 3. Click on "Security Scan (Snyk)" job
 4. View the scan results in the logs
 
 ### In Snyk Dashboard
+
 1. Go to [snyk.io](https://app.snyk.io)
 2. Your projects will appear once scanned
 3. View detailed vulnerability reports
@@ -102,11 +110,12 @@ cd backend && snyk test
 ## Disabling Snyk (Optional)
 
 If you don't want to use Snyk:
+
 1. Remove the `security-scan` job from `.github/workflows/ci.yml`
 2. Or comment out the entire job
 
 ## Need Help?
 
-- Snyk Documentation: https://docs.snyk.io
-- Snyk Support: https://support.snyk.io
-- GitHub Actions: https://docs.github.com/en/actions
+- Snyk Documentation: <https://docs.snyk.io>
+- Snyk Support: <https://support.snyk.io>
+- GitHub Actions: <https://docs.github.com/en/actions>

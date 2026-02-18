@@ -61,5 +61,5 @@ export interface APIError {
 }
 
 // Form field types for better type safety
-export type MobilityLevel = 'ambulatory' | 'wheelchair' | 'bedbound' | 'walker';
-export type Gender = 'Male' | 'Female' | 'Other';
+export type MobilityLevel = "ambulatory" | "wheelchair" | "bedbound" | "walker";
+export type Gender = "Male" | "Female" | "Other";

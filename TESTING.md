@@ -70,16 +70,19 @@ backend/tests/
 ### Test Categories
 
 **Unit Tests:**
+
 - Validation (Pydantic models)
 - Individual functions
 - No external dependencies
 
 **Integration Tests:**
+
 - API endpoints (TestClient)
 - Health check
 - Care plan generation (mocked API)
 
 **Full Integration Tests** (require API key):
+
 - End-to-end care plan generation
 - Real Claude API calls
 - Marked with `@pytest.mark.requires_api_key`
@@ -157,16 +160,19 @@ frontend/src/
 ### Test Categories
 
 **Component Tests:**
+
 - Rendering tests
 - User interaction tests
 - State management tests
 
 **Integration Tests:**
+
 - Full workflow tests
 - API integration (mocked)
 - Navigation tests
 
 **Accessibility Tests:**
+
 - ARIA attributes
 - Keyboard navigation
 - Screen reader support
@@ -244,6 +250,7 @@ vi.mocked(generateCarePlan).mockResolvedValue({
 ### Viewing Coverage
 
 **Backend:**
+
 ```bash
 cd backend
 pytest --cov=app --cov-report=html
@@ -251,6 +258,7 @@ pytest --cov=app --cov-report=html
 ```
 
 **Frontend:**
+
 ```bash
 cd frontend
 npm run test:coverage
@@ -282,12 +290,14 @@ See `.github/workflows/ci.yml` for CI configuration.
 ### Testing Locally
 
 1. **Start Backend:**
+
    ```bash
    cd backend
    uvicorn app.main:app --reload --host 0.0.0.0
    ```
 
 2. **Start Frontend:**
+
    ```bash
    cd frontend
    npm run dev
@@ -312,6 +322,7 @@ Test each of the 5 mock patients:
 5. **Dorothy Anderson** - Dementia + UTI
 
 **For each patient:**
+
 - ✅ Loads correctly
 - ✅ Generates care plan
 - ✅ Care plan is clinically reasonable
@@ -321,11 +332,13 @@ Test each of the 5 mock patients:
 ### Testing API Directly
 
 **Health Check:**
+
 ```bash
 curl http://localhost:8000/health
 ```
 
 **Generate Care Plan:**
+
 ```bash
 curl -X POST http://localhost:8000/generate-care-plan \
   -H "Content-Type: application/json" \
@@ -359,6 +372,7 @@ curl -X POST http://localhost:8000/generate-care-plan \
 ### Backend Test Issues
 
 **Problem:** `ModuleNotFoundError` when running pytest
+
 ```bash
 # Solution: Ensure virtual environment is activated and dependencies installed
 source venv/bin/activate  # or venv\Scripts\activate on Windows
@@ -367,12 +381,14 @@ pip install pytest pytest-cov
 ```
 
 **Problem:** Tests fail with "API key not found"
+
 ```bash
 # Solution: Add API key to backend/.env or skip tests requiring API key
 pytest -m "not requires_api_key"
 ```
 
 **Problem:** Import errors in tests
+
 ```bash
 # Solution: Ensure PYTHONPATH includes backend directory
 export PYTHONPATH="${PYTHONPATH}:$(pwd)"  # Run from backend directory
@@ -381,6 +397,7 @@ export PYTHONPATH="${PYTHONPATH}:$(pwd)"  # Run from backend directory
 ### Frontend Test Issues
 
 **Problem:** `Cannot find module` errors
+
 ```bash
 # Solution: Ensure dependencies are installed
 npm install
@@ -388,12 +405,14 @@ npm install -D vitest @testing-library/react @testing-library/jest-dom jsdom
 ```
 
 **Problem:** Tests fail with "document is not defined"
+
 ```bash
 # Solution: Ensure vitest.config.ts has environment: 'jsdom'
 # Check that vitest.config.ts exists in frontend directory
 ```
 
 **Problem:** Mock not working
+
 ```bash
 # Solution: Check mock is defined before test runs
 # Use vi.clearAllMocks() in beforeEach
@@ -414,6 +433,7 @@ npm install -D vitest @testing-library/react @testing-library/jest-dom jsdom
    - Bad: `test1`
 
 3. **Arrange, Act, Assert (AAA)**
+
    ```python
    # Arrange
    patient_data = {...}
@@ -514,11 +534,11 @@ npm run test App.test.tsx
 
 ## Resources
 
-- **pytest**: https://docs.pytest.org
-- **FastAPI Testing**: https://fastapi.tiangolo.com/tutorial/testing/
-- **Vitest**: https://vitest.dev/
-- **React Testing Library**: https://testing-library.com/react
-- **Testing Best Practices**: https://kentcdodds.com/blog/common-mistakes-with-react-testing-library
+- **pytest**: <https://docs.pytest.org>
+- **FastAPI Testing**: <https://fastapi.tiangolo.com/tutorial/testing/>
+- **Vitest**: <https://vitest.dev/>
+- **React Testing Library**: <https://testing-library.com/react>
+- **Testing Best Practices**: <https://kentcdodds.com/blog/common-mistakes-with-react-testing-library>
 
 ---
 

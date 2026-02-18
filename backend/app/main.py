@@ -2,19 +2,36 @@
 FastAPI application entry point for Care Plan Generator.
 Simple, clean implementation with health check and care plan generation endpoints.
 """
+
+from collections.abc import AsyncGenerator
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from contextlib import asynccontextmanager
-from typing import AsyncGenerator
 
 from app.config import settings
-from app.models import PatientInput, CarePlanOutput, HealthCheckResponse
+from app.models import CarePlanOutput, HealthCheckResponse, PatientInput
 from app.services.care_plan_service import generate_care_plan
-from app.utils.logger import setup_logger, log_api_request, log_api_response, log_error
+from app.utils.logger import log_api_request, log_api_response, log_error, setup_logger
 
-# Setup logger
+# Setup logger first
 logger = setup_logger(__name__, settings.log_level)
+
+# Initialize Sentry for error tracking
+if settings.sentry_dsn:
+    import sentry_sdk
+    from sentry_sdk.integrations.fastapi import FastApiIntegration
+
+    sentry_sdk.init(
+        dsn=settings.sentry_dsn,
+        environment=settings.environment,
+        traces_sample_rate=1.0,
+        integrations=[FastApiIntegration()],
+    )
+    logger.info("Sentry monitoring initialized")
+else:
+    logger.info("Sentry monitoring disabled (no DSN provided)")
 
 
 @asynccontextmanager
@@ -127,7 +144,7 @@ async def create_care_plan(patient: PatientInput) -> CarePlanOutput:
 
     except ValueError as e:
         # Validation errors
-        logger.warning(f"Validation error for patient {patient.name}: {str(e)}")
+        logger.warning(f"Validation error for patient {patient.name}: {e!s}")
         raise HTTPException(status_code=422, detail=str(e))
 
     except Exception as e:
@@ -145,7 +162,9 @@ async def global_exception_handler(request: Request, exc: Exception) -> JSONResp
     log_error(logger, exc, context=f"{request.method} {request.url.path}")
     return JSONResponse(
         status_code=500,
-        content={"detail": "An internal server error occurred. Please contact support."},
+        content={
+            "detail": "An internal server error occurred. Please contact support."
+        },
     )
 
 

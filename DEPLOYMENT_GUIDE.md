@@ -60,6 +60,7 @@ Once the service is created:
 2. Add the following variables:
 
    **Required:**
+
    ```
    ANTHROPIC_API_KEY = your-anthropic-api-key-here
    ENVIRONMENT = production
@@ -68,6 +69,7 @@ Once the service is created:
    ```
 
    **Optional (if using Sentry):**
+
    ```
    SENTRY_DSN = your-backend-sentry-dsn-here
    ```
@@ -93,6 +95,7 @@ curl https://your-backend-url.onrender.com/health
 ```
 
 **⚠️ Important Notes:**
+
 - Free tier spins down after 15 minutes of inactivity
 - First request after spin-down takes ~30-60 seconds (cold start)
 - Upgrade to Starter plan ($7/month) to keep it always running
@@ -129,12 +132,14 @@ After the first deployment:
 2. Add the following variables:
 
    **Required:**
+
    ```
    VITE_API_URL = https://your-backend-url.onrender.com
    VITE_ENVIRONMENT = production
    ```
 
    **Optional (if using Sentry):**
+
    ```
    VITE_SENTRY_DSN = your-frontend-sentry-dsn-here
    ```
@@ -157,9 +162,11 @@ Now that you have your frontend URL:
 2. Select your backend service
 3. Go to **Environment** tab
 4. Update `CORS_ORIGINS`:
+
    ```
    CORS_ORIGINS = https://your-frontend-domain.vercel.app
    ```
+
 5. Save and wait for automatic redeploy
 
 ### 2.6 Test Frontend
@@ -210,10 +217,12 @@ If you haven't already:
 ### 4.2 Set Up Alerts
 
 **Render:**
+
 1. Go to your backend service → **Settings** → **Notifications**
 2. Enable email notifications for deploy failures
 
 **Vercel:**
+
 1. Go to **Settings** → **Notifications**
 2. Enable deploy and error notifications
 
@@ -229,6 +238,7 @@ Your GitHub Actions workflow is already configured! It will:
 - ✅ Run security scans
 
 **To enable Snyk security scanning:**
+
 1. Follow [.github/SNYK_SETUP.md](./.github/SNYK_SETUP.md)
 2. Add `SNYK_TOKEN` to GitHub repository secrets
 
@@ -274,6 +284,7 @@ git push origin feature/my-feature
 ### Backend Issues
 
 **Problem:** Render deployment fails with "ModuleNotFoundError"
+
 ```bash
 # Solution: Check requirements.txt includes all dependencies
 pip freeze > requirements.txt
@@ -283,6 +294,7 @@ git push
 ```
 
 **Problem:** Backend returns 500 errors
+
 ```bash
 # Check Render logs:
 # 1. Go to Render dashboard
@@ -292,6 +304,7 @@ git push
 ```
 
 **Problem:** "cold start" delays on free tier
+
 ```bash
 # Solutions:
 # 1. Upgrade to Starter plan ($7/month) to keep always-on
@@ -302,6 +315,7 @@ git push
 ### Frontend Issues
 
 **Problem:** API calls fail with CORS error
+
 ```bash
 # Solution: Check CORS_ORIGINS in Render backend
 # Must match your Vercel URL exactly (including https://)
@@ -309,6 +323,7 @@ CORS_ORIGINS = https://your-frontend.vercel.app
 ```
 
 **Problem:** Environment variables not working
+
 ```bash
 # Solution: Redeploy after adding environment variables
 # 1. Go to Vercel Deployments
@@ -317,6 +332,7 @@ CORS_ORIGINS = https://your-frontend.vercel.app
 ```
 
 **Problem:** 404 on page refresh (React Router)
+
 ```bash
 # Already handled by vercel.json rewrites!
 # If still issues, check vercel.json is in frontend/ directory
@@ -325,6 +341,7 @@ CORS_ORIGINS = https://your-frontend.vercel.app
 ### General Issues
 
 **Problem:** Deployment succeeds but app doesn't work
+
 ```bash
 # Checklist:
 # 1. Check all environment variables are set correctly
@@ -341,12 +358,14 @@ CORS_ORIGINS = https://your-frontend.vercel.app
 ### Free Tier Limits
 
 **Render Free Tier:**
+
 - 750 hours/month (enough for 1 service running 24/7)
 - Spins down after 15 minutes inactivity
 - 512 MB RAM
 - Shared CPU
 
 **Vercel Free Tier:**
+
 - 100 GB bandwidth/month
 - Unlimited deployments
 - Automatic SSL
@@ -355,6 +374,7 @@ CORS_ORIGINS = https://your-frontend.vercel.app
 ### When to Upgrade
 
 Upgrade when you need:
+
 - **Render Starter ($7/month)**: Always-on, no cold starts, 512 MB RAM
 - **Render Standard ($25/month)**: 2 GB RAM, faster CPU
 - **Vercel Pro ($20/month)**: More bandwidth, better support
@@ -362,11 +382,13 @@ Upgrade when you need:
 ### Performance Optimization
 
 **Backend (Render):**
+
 - Enable response caching (if adding Redis)
 - Use connection pooling for database (if adding DB)
 - Monitor slow endpoints with Sentry performance
 
 **Frontend (Vercel):**
+
 - Already optimized! Vercel handles:
   - Static asset caching
   - Brotli compression
@@ -393,6 +415,7 @@ Before going live:
 ## Cost Breakdown
 
 ### Free Tier (Total: $0/month)
+
 - Render: Free (with cold starts)
 - Vercel: Free
 - Sentry: Free (5,000 errors/month)
@@ -400,6 +423,7 @@ Before going live:
 - Anthropic API: Pay-per-use (~$1-5/month for testing)
 
 ### Production Tier (Total: ~$30/month)
+
 - Render Starter: $7/month
 - Vercel Pro: $20/month
 - Sentry: Free tier sufficient
@@ -420,17 +444,17 @@ Before going live:
 
 ## Useful Links
 
-- **Render Documentation**: https://render.com/docs
-- **Vercel Documentation**: https://vercel.com/docs
-- **FastAPI Deployment Guide**: https://fastapi.tiangolo.com/deployment/
-- **Vite Production Build**: https://vitejs.dev/guide/build.html
+- **Render Documentation**: <https://render.com/docs>
+- **Vercel Documentation**: <https://vercel.com/docs>
+- **FastAPI Deployment Guide**: <https://fastapi.tiangolo.com/deployment/>
+- **Vite Production Build**: <https://vitejs.dev/guide/build.html>
 
 ---
 
 ## Need Help?
 
-- **Render Support**: https://render.com/docs/support
-- **Vercel Support**: https://vercel.com/support
+- **Render Support**: <https://render.com/docs/support>
+- **Vercel Support**: <https://vercel.com/support>
 - **GitHub Issues**: Create an issue in your repository
 
 ---

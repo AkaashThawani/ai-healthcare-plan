@@ -26,4 +26,4 @@ ruff==0.1.14
 mypy==1.8.0
 
 # Monitoring (for Phase 6)
-# sentry-sdk[fastapi]==1.40.0
+sentry-sdk[fastapi]==1.40.0

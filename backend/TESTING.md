@@ -3,12 +3,14 @@
 ## Setup
 
 1. **Create virtual environment:**
+
 ```bash
 cd backend
 python -m venv venv
 ```
 
 2. **Activate virtual environment:**
+
 ```bash
 # Windows
 venv\Scripts\activate
@@ -18,11 +20,13 @@ source venv/bin/activate
 ```
 
 3. **Install dependencies:**
+
 ```bash
 pip install -r requirements.txt
 ```
 
 4. **Create .env file:**
+
 ```bash
 # Copy the example and add your API key
 cp .env.example .env
@@ -35,6 +39,7 @@ LOG_LEVEL=INFO
 ```
 
 5. **Run the server:**
+
 ```bash
 uvicorn app.main:app --reload
 ```
@@ -44,11 +49,13 @@ Server will start at: `http://localhost:8000`
 ## Test Endpoints
 
 ### 1. Health Check
+
 ```bash
 curl http://localhost:8000/health
 ```
 
 Expected response:
+
 ```json
 {
   "status": "healthy",
@@ -58,11 +65,14 @@ Expected response:
 ```
 
 ### 2. API Documentation
+
 Open in browser:
+
 - Swagger UI: `http://localhost:8000/docs`
 - ReDoc: `http://localhost:8000/redoc`
 
 ### 3. Generate Care Plan
+
 ```bash
 curl -X POST http://localhost:8000/generate-care-plan \
   -H "Content-Type: application/json" \
@@ -97,18 +107,22 @@ curl -X POST http://localhost:8000/generate-care-plan \
 ## Troubleshooting
 
 **"Connection refused":**
+
 - Make sure the server is running
 - Check that you're using the correct port (8000)
 
 **"Anthropic API key not found":**
+
 - Verify `.env` file exists in backend directory
 - Check that `ANTHROPIC_API_KEY` is set correctly
 - Restart the server after changing .env
 
 **"Module not found" errors:**
+
 - Ensure virtual environment is activated
 - Run `pip install -r requirements.txt` again
 
 **CORS errors:**
+
 - Check `CORS_ORIGINS` in .env file
-- Ensure frontend URL is included (http://localhost:5173)
+- Ensure frontend URL is included (<http://localhost:5173>)

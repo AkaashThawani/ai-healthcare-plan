@@ -36,15 +36,18 @@ That's it! Now hooks will run automatically before each commit.
 ### What Gets Checked
 
 **Python (Backend):**
+
 - ✅ Ruff linting (auto-fix enabled)
 - ✅ Black formatting
 - ✅ MyPy type checking
 
 **TypeScript/React (Frontend):**
+
 - ✅ ESLint linting
 - ✅ Prettier formatting
 
 **All Files:**
+
 - ✅ Trailing whitespace removed
 - ✅ End-of-file newline added
 - ✅ No large files (>1MB)
@@ -127,6 +130,7 @@ Our `.coderabbit.yaml` includes custom rules:
 ### Adjusting Settings
 
 Edit `.coderabbit.yaml` to:
+
 - Change review depth (quick/moderate/comprehensive)
 - Add custom rules
 - Adjust comment limits
@@ -260,6 +264,7 @@ git push origin feature/my-feature
 ### Pre-commit hooks failing
 
 **Problem:** Black and ESLint conflict
+
 ```bash
 # Run them in order:
 pre-commit run black --all-files
@@ -267,12 +272,14 @@ pre-commit run eslint --all-files
 ```
 
 **Problem:** MyPy complains about missing types
+
 ```bash
 # Add to mypy config or use ignore comment:
 # type: ignore
 ```
 
 **Problem:** Hooks take too long
+
 ```bash
 # Run on changed files only:
 pre-commit run
@@ -281,6 +288,7 @@ pre-commit run
 ### CodeRabbit not commenting
 
 **Problem:** CodeRabbit silent on PRs
+
 - Check repository is enabled in CodeRabbit dashboard
 - Verify `.coderabbit.yaml` is valid YAML
 - Check PR targets `main` branch
@@ -289,6 +297,7 @@ pre-commit run
 ### Branch protection blocking merge
 
 **Problem:** Can't merge even though checks pass
+
 - Refresh the PR page
 - Check if all conversations resolved
 - Verify required reviewers approved
@@ -327,6 +336,6 @@ pre-commit run
 
 ## Need Help?
 
-- **Pre-commit**: https://pre-commit.com
-- **CodeRabbit**: https://docs.coderabbit.ai
-- **GitHub Branch Protection**: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches
+- **Pre-commit**: <https://pre-commit.com>
+- **CodeRabbit**: <https://docs.coderabbit.ai>
+- **GitHub Branch Protection**: <https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches>

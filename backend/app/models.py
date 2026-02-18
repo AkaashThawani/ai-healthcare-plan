@@ -1,8 +1,10 @@
 """
 Pydantic models for patient input validation and care plan output structure.
 """
+
 from datetime import date
-from typing import List, Optional
+from typing import Optional
+
 from pydantic import BaseModel, Field, field_validator
 
 
@@ -26,28 +28,36 @@ class PatientInput(BaseModel):
 
     # Medical History
     primary_diagnosis: str = Field(..., min_length=1, description="Primary diagnosis")
-    comorbidities: List[str] = Field(default_factory=list, description="List of comorbidities")
+    comorbidities: list[str] = Field(
+        default_factory=list, description="List of comorbidities"
+    )
 
     # Current Vitals
     blood_pressure: str = Field(..., description="Blood pressure (e.g., '120/80')")
     heart_rate: int = Field(..., ge=20, le=300, description="Heart rate in BPM")
-    temperature: float = Field(..., ge=90.0, le=110.0, description="Temperature in Fahrenheit")
-    oxygen_saturation: int = Field(..., ge=0, le=100, description="O2 saturation percentage")
+    temperature: float = Field(
+        ..., ge=90.0, le=110.0, description="Temperature in Fahrenheit"
+    )
+    oxygen_saturation: int = Field(
+        ..., ge=0, le=100, description="O2 saturation percentage"
+    )
     pain_level: int = Field(..., ge=0, le=10, description="Pain level (0-10 scale)")
 
     # Medications & Allergies
-    current_medications: List[Medication] = Field(
+    current_medications: list[Medication] = Field(
         default_factory=list, description="List of current medications"
     )
-    allergies: List[str] = Field(default_factory=list, description="Known allergies")
+    allergies: list[str] = Field(default_factory=list, description="Known allergies")
 
     # Clinical Status
-    symptoms: List[str] = Field(default_factory=list, description="Current symptoms")
-    mobility_level: str = Field(..., description="Mobility level (ambulatory/wheelchair/bedbound)")
+    symptoms: list[str] = Field(default_factory=list, description="Current symptoms")
+    mobility_level: str = Field(
+        ..., description="Mobility level (ambulatory/wheelchair/bedbound)"
+    )
     adl_independence: str = Field(
         ..., description="Activities of daily living independence level"
     )
-    fall_risk_factors: List[str] = Field(
+    fall_risk_factors: list[str] = Field(
         default_factory=list, description="Fall risk factors"
     )
     cognitive_status: str = Field(..., description="Cognitive status description")
@@ -56,7 +66,9 @@ class PatientInput(BaseModel):
     isolation_precautions: Optional[str] = Field(
         None, description="Isolation precautions if any"
     )
-    diet_restrictions: Optional[str] = Field(None, description="Diet restrictions if any")
+    diet_restrictions: Optional[str] = Field(
+        None, description="Diet restrictions if any"
+    )
 
     @field_validator("gender")
     @classmethod
@@ -101,10 +113,18 @@ class PatientInput(BaseModel):
                     {"name": "Aspirin", "dosage": "81mg", "frequency": "QD"},
                 ],
                 "allergies": ["Penicillin"],
-                "symptoms": ["Right-sided weakness", "Difficulty with speech", "Confusion"],
+                "symptoms": [
+                    "Right-sided weakness",
+                    "Difficulty with speech",
+                    "Confusion",
+                ],
                 "mobility_level": "wheelchair",
                 "adl_independence": "Requires assistance with all ADLs",
-                "fall_risk_factors": ["History of falls", "Impaired mobility", "Confusion"],
+                "fall_risk_factors": [
+                    "History of falls",
+                    "Impaired mobility",
+                    "Confusion",
+                ],
                 "cognitive_status": "Alert but confused, follows simple commands",
                 "isolation_precautions": None,
                 "diet_restrictions": "Diabetic diet, thickened liquids",
@@ -142,5 +162,9 @@ class HealthCheckResponse(BaseModel):
         """Pydantic model configuration."""
 
         json_schema_extra = {
-            "example": {"status": "healthy", "environment": "development", "version": "1.0.0"}
+            "example": {
+                "status": "healthy",
+                "environment": "development",
+                "version": "1.0.0",
+            }
         }

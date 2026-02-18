@@ -31,6 +31,7 @@
 ## ✨ Features
 
 ### Core Functionality
+
 - ✅ **Comprehensive Patient Input** - Demographics, vitals, medications, allergies, symptoms, fall risks
 - ✅ **AI-Powered Care Plans** - Claude Sonnet 4 generates evidence-based nursing care plans
 - ✅ **NANDA Nursing Diagnoses** - 3-5 diagnoses per care plan
@@ -39,6 +40,7 @@
 - ✅ **Print-Friendly Formatting** - Professional output for clinical use
 
 ### User Experience
+
 - ✅ **Searchable Selects** - Type-to-filter for symptoms, comorbidities, medications, allergies
 - ✅ **Preset Options** - 40+ symptoms, 30+ fall risks, 40+ comorbidities, 20+ allergies
 - ✅ **Custom Entries** - Add items not in presets
@@ -48,6 +50,7 @@
 - ✅ **Responsive Design** - Works on desktop and tablet
 
 ### Infrastructure
+
 - ✅ **CI/CD Pipeline** - Automated linting, type checking, security scanning
 - ✅ **Error Tracking** - Sentry integration for frontend + backend
 - ✅ **Performance Monitoring** - Real-time metrics and alerts
@@ -60,6 +63,7 @@
 ## 🏗️ Tech Stack
 
 ### Frontend
+
 - **React 18** - UI library with hooks
 - **Vite 5** - Fast build tool and dev server
 - **TypeScript** - Type safety
@@ -69,6 +73,7 @@
 - **Lucide React** - Icon library
 
 ### Backend
+
 - **FastAPI** - Modern Python web framework
 - **Anthropic Claude API** - AI model (Sonnet 4)
 - **Pydantic** - Data validation and settings
@@ -76,6 +81,7 @@
 - **Python 3.11+** - Programming language
 
 ### Infrastructure & DevOps
+
 - **GitHub Actions** - CI/CD automation
 - **Sentry** - Error tracking and performance monitoring
 - **Snyk** - Security vulnerability scanning
@@ -85,6 +91,7 @@
 - **Vercel** - Frontend hosting
 
 ### Code Quality
+
 - **Ruff** - Fast Python linter and formatter
 - **Black** - Python code formatter
 - **MyPy** - Python static type checker
@@ -232,6 +239,7 @@ pip install -r requirements.txt
 ```
 
 Create `backend/.env`:
+
 ```bash
 ANTHROPIC_API_KEY=sk-ant-your-key-here
 CORS_ORIGINS=http://localhost:5173
@@ -240,11 +248,12 @@ LOG_LEVEL=INFO
 ```
 
 **Start the backend:**
+
 ```bash
 uvicorn app.main:app --reload --host 0.0.0.0
 ```
 
-✅ Backend running at **http://localhost:8000**
+✅ Backend running at **<http://localhost:8000>**
 
 ### 4. Frontend Setup
 
@@ -261,27 +270,30 @@ npm install
 ```
 
 Create `frontend/.env`:
+
 ```bash
 VITE_API_URL=http://localhost:8000
 VITE_ENVIRONMENT=development
 ```
 
 **Start the frontend:**
+
 ```bash
 npm run dev
 ```
 
-✅ Frontend running at **http://localhost:5173**
+✅ Frontend running at **<http://localhost:5173>**
 
 ### 5. Test the Application
 
-1. Open **http://localhost:5173** in your browser
+1. Open **<http://localhost:5173>** in your browser
 2. Click **"Load Example"** to fill the form with mock patient data
 3. Click **"Generate Care Plan"**
 4. Wait 5-10 seconds for AI generation
 5. View the comprehensive care plan!
 
 **Try the 5 mock patients:**
+
 - Sarah Johnson (Post-stroke + diabetes)
 - Robert Martinez (CHF + renal disease)
 - Margaret Williams (Hip fracture post-surgery)
@@ -460,12 +472,14 @@ pytest --cov=app               # With coverage report
 ```
 
 **Test Health Check:**
+
 ```bash
 curl http://localhost:8000/health
 # Expected: {"status":"healthy","environment":"development"}
 ```
 
 **Test Care Plan Generation:**
+
 ```bash
 # See backend/tests/mock_patients/ for full curl examples
 curl -X POST http://localhost:8000/generate-care-plan \
@@ -493,6 +507,7 @@ This project uses **comprehensive code quality tools** to maintain high standard
 **What it does**: Runs linting, formatting, and type checking before each commit.
 
 **Setup** (one-time):
+
 ```bash
 # Install pre-commit
 pip install pre-commit
@@ -502,6 +517,7 @@ pre-commit install
 ```
 
 **Usage**: Just commit normally! Hooks run automatically.
+
 ```bash
 git add .
 git commit -m "feat: add new feature"
@@ -533,6 +549,7 @@ npm run type-check    # Type checking (TypeScript)
 ### CI/CD Pipeline
 
 **Automated checks on every push and PR:**
+
 - ✅ Backend linting (Ruff)
 - ✅ Frontend linting (ESLint)
 - ✅ Backend type checking (MyPy)
@@ -545,6 +562,7 @@ npm run type-check    # Type checking (TypeScript)
 ### Code Standards
 
 **Python (Backend):**
+
 - PEP 8 style guide
 - Type hints for all functions
 - Maximum line length: 100 characters
@@ -552,6 +570,7 @@ npm run type-check    # Type checking (TypeScript)
 - Cyclomatic complexity < 10
 
 **TypeScript/React (Frontend):**
+
 - Airbnb style guide (via ESLint)
 - TypeScript strict mode
 - CamelCase for variables/functions
@@ -559,6 +578,7 @@ npm run type-check    # Type checking (TypeScript)
 - Functional components with hooks
 
 **Git Commits:**
+
 - Conventional commits format: `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`
 - Keep messages concise and descriptive
 
@@ -571,6 +591,7 @@ npm run type-check    # Type checking (TypeScript)
 ### Sentry Integration (Error Tracking + Performance)
 
 **What it monitors:**
+
 - ✅ Backend API errors and exceptions
 - ✅ Frontend JavaScript errors
 - ✅ React component errors
@@ -581,6 +602,7 @@ npm run type-check    # Type checking (TypeScript)
 **Setup**: See [SENTRY_SETUP.md](./SENTRY_SETUP.md) for step-by-step instructions.
 
 **Quick Summary:**
+
 1. Create Sentry account at [sentry.io](https://sentry.io)
 2. Create **two projects**: backend (Python) and frontend (React)
 3. Get DSN keys for both
@@ -630,6 +652,7 @@ npm run type-check    # Type checking (TypeScript)
 #### Update CORS
 
 After deployment, update backend `CORS_ORIGINS` in Render:
+
 ```
 CORS_ORIGINS=https://your-app.vercel.app
 ```
@@ -668,9 +691,11 @@ Once the backend is running, visit:
 ### Endpoints
 
 #### `GET /health`
+
 Health check endpoint.
 
 **Response:**
+
 ```json
 {
   "status": "healthy",
@@ -679,6 +704,7 @@ Health check endpoint.
 ```
 
 #### `POST /generate-care-plan`
+
 Generate AI care plan from patient data.
 
 **Request Body**: See `PatientInput` model in `backend/app/models.py`
@@ -706,6 +732,7 @@ backend/app/
 ```
 
 **Key Design Decisions:**
+
 - **Modular services**: Easy to swap AI providers or add features
 - **Pydantic validation**: Strong typing + automatic validation
 - **Configuration management**: All settings in one place
@@ -732,6 +759,7 @@ frontend/src/
 ```
 
 **Key Design Decisions:**
+
 - **Component-based**: Reusable, testable components
 - **React Router**: Proper browser navigation (back/forward works)
 - **Type safety**: Full TypeScript coverage
@@ -747,6 +775,7 @@ frontend/src/
 #### Backend Issues
 
 **Problem**: `ModuleNotFoundError` when starting backend
+
 ```bash
 # Solution: Ensure virtual environment is activated
 cd backend
@@ -760,6 +789,7 @@ pip install -r requirements.txt
 ```
 
 **Problem**: Backend returns 500 error on `/generate-care-plan`
+
 ```bash
 # Check backend logs for detailed error
 # Common causes:
@@ -769,6 +799,7 @@ pip install -r requirements.txt
 ```
 
 **Problem**: `ImportError: No module named 'anthropic'`
+
 ```bash
 # Solution: Install dependencies
 pip install -r requirements.txt
@@ -781,6 +812,7 @@ pip install -r requirements.txt
 #### Frontend Issues
 
 **Problem**: `ERR_CONNECTION_REFUSED` when accessing localhost:5173
+
 ```bash
 # Solution: Start frontend with --host flag
 cd frontend
@@ -791,6 +823,7 @@ npm run dev -- --host 0.0.0.0
 ```
 
 **Problem**: CORS error when calling backend
+
 ```bash
 # Solution: Check CORS_ORIGINS in backend .env
 # Must include frontend URL
@@ -801,6 +834,7 @@ CORS_ORIGINS=http://10.5.0.2:5173,http://localhost:5173
 ```
 
 **Problem**: Environment variables not loading
+
 ```bash
 # Solution: Restart dev server after changing .env
 # Vite loads .env only on startup
@@ -810,6 +844,7 @@ CORS_ORIGINS=http://10.5.0.2:5173,http://localhost:5173
 ```
 
 **Problem**: Build fails with TypeScript errors
+
 ```bash
 # Solution: Run type checking to see errors
 npm run type-check
@@ -821,6 +856,7 @@ npm run build
 #### API Key Issues
 
 **Problem**: "Invalid API key" error
+
 ```bash
 # Solution: Verify API key in backend/.env
 # Key should start with sk-ant-
@@ -836,6 +872,7 @@ curl https://api.anthropic.com/v1/messages \
 ```
 
 **Problem**: "Insufficient credits" error
+
 ```bash
 # Solution: Add credits to your Anthropic account
 # Go to console.anthropic.com → Billing → Add credits
@@ -845,6 +882,7 @@ curl https://api.anthropic.com/v1/messages \
 #### Development Issues
 
 **Problem**: Pre-commit hooks failing
+
 ```bash
 # Solution: Run hooks manually to see errors
 pre-commit run --all-files
@@ -857,6 +895,7 @@ npm run lint:fix  # in frontend/
 ```
 
 **Problem**: Tests failing
+
 ```bash
 # Backend tests:
 cd backend
@@ -875,6 +914,7 @@ npm run test  # See errors
    - Sentry: Dashboard at sentry.io
 
 2. **Enable debug logging**:
+
    ```bash
    # Backend .env
    LOG_LEVEL=DEBUG
@@ -903,6 +943,7 @@ We welcome contributions! Please follow these guidelines:
 ### Development Workflow
 
 1. **Fork the repository**
+
    ```bash
    # Click "Fork" on GitHub
    git clone https://github.com/your-username/care-plan-generator.git
@@ -910,6 +951,7 @@ We welcome contributions! Please follow these guidelines:
    ```
 
 2. **Create a feature branch**
+
    ```bash
    git checkout -b feature/your-feature-name
    # or
@@ -922,6 +964,7 @@ We welcome contributions! Please follow these guidelines:
    - Update documentation if needed
 
 4. **Run quality checks**
+
    ```bash
    # Backend
    cd backend
@@ -937,6 +980,7 @@ We welcome contributions! Please follow these guidelines:
    ```
 
 5. **Commit with conventional commits**
+
    ```bash
    git add .
    git commit -m "feat: add new feature description"
@@ -944,6 +988,7 @@ We welcome contributions! Please follow these guidelines:
    ```
 
 6. **Push and create PR**
+
    ```bash
    git push origin feature/your-feature-name
    # Then create Pull Request on GitHub
@@ -1044,6 +1089,7 @@ Future enhancements (not in current scope):
 ---
 
 **Quick Links:**
+
 - [Getting Started](#-quick-start)
 - [API Documentation](http://localhost:8000/docs)
 - [Code Quality Setup](./CODE_QUALITY_SETUP.md)

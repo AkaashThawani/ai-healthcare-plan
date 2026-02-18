@@ -2,7 +2,7 @@
 Application configuration management using Pydantic Settings.
 Loads environment variables from .env file and validates them.
 """
-from typing import List
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -34,7 +34,7 @@ class Settings(BaseSettings):
     )
 
     @property
-    def cors_origins_list(self) -> List[str]:
+    def cors_origins_list(self) -> list[str]:
         """Parse CORS origins string into list."""
         return [origin.strip() for origin in self.cors_origins.split(",")]
 
