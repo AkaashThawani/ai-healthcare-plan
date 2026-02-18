@@ -67,3 +67,6 @@ htmlcov/
 # OS
 Thumbs.db
 .DS_Store
+
+# Claude Code MCP (contains API keys - do not commit)
+.claude/mcp.json
